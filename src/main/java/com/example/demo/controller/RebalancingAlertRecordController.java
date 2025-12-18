@@ -23,9 +23,9 @@ public class RebalancingAlertRecordController {
         return service.getByInvestor(investorId);
     }
 
-    @PutMapping("/resolve/{alertId}")
+    @PutMapping("/resolve/{id}")
     public RebalancingAlertRecordModel resolve(
-            @PathVariable Long alertId) {
-        return service.resolve(alertId);
+            @PathVariable Long id) {
+        return service.resolve(id);
     }
 }
