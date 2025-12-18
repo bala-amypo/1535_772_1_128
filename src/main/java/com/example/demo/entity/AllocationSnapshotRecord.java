@@ -16,6 +16,5 @@ public class AllocationSnapshotRecord {
     private AssetClass assetClass;
 
     private double currentPercentage;
-
     private double totalPortfolioValue;
 }
