@@ -1,5 +1,6 @@
+package com.example.demo.entity;
+
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "rebalancing_alert_record")
@@ -7,7 +8,7 @@ public class RebalancingAlertRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long alertId;
+    private Long id;
 
     private Long investorId;
 
@@ -22,6 +23,4 @@ public class RebalancingAlertRecord {
     private AlertSeverity severity;
 
     private boolean resolved = false;
-
-    private LocalDateTime alertDate = LocalDateTime.now();
 }

@@ -1,5 +1,6 @@
+package com.example.demo.entity;
+
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "allocation_snapshot_record")
@@ -7,7 +8,7 @@ public class AllocationSnapshotRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long snapshotId;
+    private Long id;
 
     private Long investorId;
 
@@ -17,6 +18,4 @@ public class AllocationSnapshotRecord {
     private double currentPercentage;
 
     private double totalPortfolioValue;
-
-    private LocalDateTime snapshotDate = LocalDateTime.now();
 }

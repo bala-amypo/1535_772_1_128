@@ -1,3 +1,5 @@
+package com.example.demo.entity;
+
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -7,14 +9,14 @@ public class InvestorProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long investorId;
+    private Long id;
+
+    private String investorId;
 
     private String fullName;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String email;
-
-    private String password;
 
     private boolean active = true;
 
