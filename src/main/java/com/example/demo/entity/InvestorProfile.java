@@ -1,42 +1,24 @@
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
 @Entity
-public class InestorProfile {
+@Table(name = "investor")
+public class Investor {
+
     @Id
-    @GeneratratedValue.(strategy=GenerationType.IDENTITY)
-        private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        private String fullName:
+    private String fullName;
 
+    @Column(unique = true, nullable = false)
+    private String email;
 
+    private String password;
 
+    private boolean active = true;
 
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        )
-
+    // getters & setters
 }
