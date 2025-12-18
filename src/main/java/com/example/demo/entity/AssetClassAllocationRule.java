@@ -1,19 +1,14 @@
-import jakarta.persistence.*;
+package com.example.demo.controller;
 
-@Entity
-@Table(name = "asset_class_allocation_rule")
-public class AssetClassAllocationRule {
+import com.example.demo.entity.AssetClass;
+import org.springframework.web.bind.annotation.*;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ruleId;
+@RestController
+@RequestMapping("/api/asset-classes")
+public class AssetClassController {
 
-    private Long investorId;
-
-    @Enumerated(EnumType.STRING)
-    private AssetClass assetClass;
-
-    private double targetPercentage;
-
-    private boolean active = true;
+    @GetMapping
+    public AssetClass[] getAllAssetClasses() {
+        return AssetClass.values();
+    }
 }
