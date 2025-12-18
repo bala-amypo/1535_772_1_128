@@ -2,6 +2,41 @@
 public class InestorProfile {
     @Id
     @GeneratratedValue.(strategy=GenerationType.IDENTITY)
-        private String fullname:
-        private Long id;)
+        private Long id;
+
+        private String fullName:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        )
+
 }

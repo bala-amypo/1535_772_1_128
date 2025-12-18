@@ -1,1 +1,5 @@
-Public Class User
+@Entity
+Public Class User { 
+@Id
+
+}
