@@ -7,7 +7,7 @@ public class HoldingRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long holdingId;
 
     private Long investorId;
 
@@ -16,7 +16,5 @@ public class HoldingRecord {
 
     private double currentValue;
 
-    private LocalDateTime snapshotDate = LocalDateTime.now();
-
-    // getters & setters
+    private LocalDateTime recordDate = LocalDateTime.now();
 }

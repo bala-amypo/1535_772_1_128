@@ -2,12 +2,12 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "investor")
-public class Investor {
+@Table(name = "investor_profile")
+public class InvestorProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long investorId;
 
     private String fullName;
 
@@ -19,6 +19,4 @@ public class Investor {
     private boolean active = true;
 
     private LocalDateTime createdAt = LocalDateTime.now();
-
-    // getters & setters
 }

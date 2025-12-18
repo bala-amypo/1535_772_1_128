@@ -1,12 +1,12 @@
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "allocation_rule")
-public class AllocationRule {
+@Table(name = "asset_class_allocation_rule")
+public class AssetClassAllocationRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long ruleId;
 
     private Long investorId;
 
@@ -16,6 +16,4 @@ public class AllocationRule {
     private double targetPercentage;
 
     private boolean active = true;
-
-    // getters & setters
 }

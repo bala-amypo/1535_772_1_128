@@ -2,12 +2,12 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "rebalancing_alert")
-public class RebalancingAlert {
+@Table(name = "rebalancing_alert_record")
+public class RebalancingAlertRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long alertId;
 
     private Long investorId;
 
@@ -21,11 +21,7 @@ public class RebalancingAlert {
     @Enumerated(EnumType.STRING)
     private AlertSeverity severity;
 
-    private String message;
-
     private boolean resolved = false;
 
     private LocalDateTime alertDate = LocalDateTime.now();
-
-    // getters & setters
 }
