@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
-import org.springframework.stereotype.Service;
+import com.example.demo.model.AssetClassAllocationRuleModel;
+import java.util.List;
 
-@Service
-public class AssetClassAllocationRuleService {
+public interface AssetClassAllocationRuleService {
+    AssetClassAllocationRuleModel create(AssetClassAllocationRuleModel model);
+    List<AssetClassAllocationRuleModel> getByInvestor(Long investorId);
 }

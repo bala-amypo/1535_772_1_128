@@ -9,7 +9,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse register(AuthRequest request) {
-        return new AuthResponse("Registered successfully");
+        return new AuthResponse("User registered successfully");
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
-import org.springframework.stereotype.Service;
+import com.example.demo.model.HoldingRecordModel;
+import java.util.List;
 
-@Service
-public class HoldingRecordService {
+public interface HoldingRecordService {
+    HoldingRecordModel add(HoldingRecordModel model);
+    List<HoldingRecordModel> getByInvestor(Long investorId);
 }

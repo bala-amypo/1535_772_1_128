@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
-import org.springframework.stereotype.Service;
+import com.example.demo.model.AllocationSnapshotRecordModel;
+import java.util.List;
 
-@Service
-public class AllocationSnapshotRecordService {
+public interface AllocationSnapshotRecordService {
+    List<AllocationSnapshotRecordModel> getByInvestor(Long investorId);
 }

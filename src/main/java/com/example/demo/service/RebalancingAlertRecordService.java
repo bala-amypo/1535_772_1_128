@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
-import org.springframework.stereotype.Service;
+import com.example.demo.model.RebalancingAlertRecordModel;
+import java.util.List;
 
-@Service
-public class RebalancingAlertRecordService {
+public interface RebalancingAlertRecordService {
+    List<RebalancingAlertRecordModel> getByInvestor(Long investorId);
+    void resolve(Long alertId);
 }
