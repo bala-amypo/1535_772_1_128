@@ -1,11 +1,12 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.AllocationSnapshotRecord;
+import com.example.demo.entity.AssetClassAllocationRule;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.List;
 
-public interface AllocationSnapshotRecordRepository
-        extends JpaRepository<AllocationSnapshotRecord, Long> {
+public interface AssetClassAllocationRuleRepository
+        extends JpaRepository<AssetClassAllocationRule, Long> {
 
-    List<AllocationSnapshotRecord> findByInvestorId(Long investorId);
+    List<AssetClassAllocationRule> findByInvestorId(Long investorId);
 }

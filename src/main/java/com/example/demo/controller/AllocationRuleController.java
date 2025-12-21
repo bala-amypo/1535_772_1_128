@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.AssetClassAllocationRuleModel;
-import com.example.demo.service.AssetClassAllocationRuleService;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.entity.AssetClassAllocationRule;
+import com.example.demo.repository.AssetClassAllocationRuleRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,27 +10,32 @@ import java.util.List;
 @RequestMapping("/api/allocation-rules")
 public class AllocationRuleController {
 
-    private final AssetClassAllocationRuleService ruleService;
+    private final AssetClassAllocationRuleRepository repository;
 
-    public AllocationRuleController(AssetClassAllocationRuleService ruleService) {
-        this.ruleService = ruleService;
+    public AllocationRuleController(AssetClassAllocationRuleRepository repository) {
+        this.repository = repository;
     }
 
-    @PostMapping(
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<AssetClassAllocationRuleModel> create(
-            @RequestBody AssetClassAllocationRuleModel model) {
-        return ResponseEntity.ok(ruleService.create(model));
+    // CREATE allocation rule
+    @PostMapping
+    public AssetClassAllocationRule create(@RequestBody AssetClassAllocationRule rule) {
+        if (rule.getTargetPercentage() == null ||
+                rule.getTargetPercentage() < 0 ||
+                rule.getTargetPercentage() > 100) {
+            throw new IllegalArgumentException("targetPercentage must be between 0 and 100");
+        }
+        return repository.save(rule);
     }
 
-    @GetMapping(
-        value = "/investor/{investorId}",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<List<AssetClassAllocationRuleModel>> getByInvestor(
-            @PathVariable Long investorId) {
-        return ResponseEntity.ok(ruleService.getByInvestor(investorId));
+    // GET rules by investor
+    @GetMapping("/investor/{investorId}")
+    public List<AssetClassAllocationRule> getByInvestor(@PathVariable Long investorId) {
+        return repository.findByInvestorId(investorId);
+    }
+
+    // GET all rules
+    @GetMapping
+    public List<AssetClassAllocationRule> getAll() {
+        return repository.findAll();
     }
 }
