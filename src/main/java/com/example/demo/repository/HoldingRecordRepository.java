@@ -10,3 +10,5 @@ public interface HoldingRecordRepository
 
     List<HoldingRecord> findByInvestorId(Long investorId);
 }
+
+

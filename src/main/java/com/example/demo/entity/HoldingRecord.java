@@ -3,7 +3,6 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "holding_record")
 public class HoldingRecord {
 
     @Id
@@ -15,5 +14,16 @@ public class HoldingRecord {
     @Enumerated(EnumType.STRING)
     private AssetClass assetClass;
 
-    private double currentValue;
+    private Double currentValue;
+
+    // getters & setters
+    public Long getId() { return id; }
+    public Long getInvestorId() { return investorId; }
+    public AssetClass getAssetClass() { return assetClass; }
+    public Double getCurrentValue() { return currentValue; }
+
+    public void setId(Long id) { this.id = id; }
+    public void setInvestorId(Long investorId) { this.investorId = investorId; }
+    public void setAssetClass(AssetClass assetClass) { this.assetClass = assetClass; }
+    public void setCurrentValue(Double currentValue) { this.currentValue = currentValue; }
 }
