@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.model.AssetClassAllocationRuleModel;
 import com.example.demo.service.AssetClassAllocationRuleService;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,21 +12,27 @@ import java.util.List;
 @RequestMapping("/api/allocation-rules")
 public class AllocationRuleController {
 
-    private final AssetClassAllocationRuleService service;
+    private final AssetClassAllocationRuleService ruleService;
 
-    public AllocationRuleController(AssetClassAllocationRuleService service) {
-        this.service = service;
+    public AllocationRuleController(AssetClassAllocationRuleService ruleService) {
+        this.ruleService = ruleService;
     }
 
-    @PostMapping
-    public AssetClassAllocationRuleModel create(
+    @PostMapping(
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<AssetClassAllocationRuleModel> create(
             @RequestBody AssetClassAllocationRuleModel model) {
-        return service.create(model);
+        return ResponseEntity.ok(ruleService.create(model));
     }
 
-    @GetMapping("/investor/{investorId}")
-    public List<AssetClassAllocationRuleModel> getByInvestor(
+    @GetMapping(
+        value = "/investor/{investorId}",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<AssetClassAllocationRuleModel>> getByInvestor(
             @PathVariable Long investorId) {
-        return service.getByInvestor(investorId);
+        return ResponseEntity.ok(ruleService.getByInvestor(investorId));
     }
 }
