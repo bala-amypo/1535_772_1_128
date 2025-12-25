@@ -1,12 +1,7 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import com.example.demo.entity.enums.AssetClassType;
-
-private AssetClassType assetClass;
-
+import jakarta.persistence.*;
 
 @Entity
 public class AssetClassAllocationRule {
@@ -15,16 +10,26 @@ public class AssetClassAllocationRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "investor_id")
-    private InvestorProfile investor;
+    private String investorId;
 
     @Enumerated(EnumType.STRING)
     private AssetClassType assetClass;
 
-    @Min(0)
-    @Max(100)
-    private double targetPercentage;
+    private Double targetPercentage;
 
-    // getters & setters
+    public AssetClassAllocationRule() {}
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getInvestorId() { return investorId; }
+    public void setInvestorId(String investorId) { this.investorId = investorId; }
+
+    public AssetClassType getAssetClass() { return assetClass; }
+    public void setAssetClass(AssetClassType assetClass) { this.assetClass = assetClass; }
+
+    public Double getTargetPercentage() { return targetPercentage; }
+    public void setTargetPercentage(Double targetPercentage) {
+        this.targetPercentage = targetPercentage;
+    }
 }

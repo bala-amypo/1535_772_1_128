@@ -1,14 +1,7 @@
 package com.example.demo.entity;
 
-
 import com.example.demo.entity.enums.AssetClassType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Positive;
-import com.example.demo.entity.enums.AssetClassType;
-
-private AssetClassType assetClass;
-
-
 
 @Entity
 public class HoldingRecord {
@@ -17,15 +10,26 @@ public class HoldingRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "investor_id")
-    private InvestorProfile investor;
+    private String investorId;
 
     @Enumerated(EnumType.STRING)
     private AssetClassType assetClass;
 
-    @Positive
-    private double currentValue;
+    private Double currentValue;
 
-    // getters & setters
+    public HoldingRecord() {}
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getInvestorId() { return investorId; }
+    public void setInvestorId(String investorId) { this.investorId = investorId; }
+
+    public AssetClassType getAssetClass() { return assetClass; }
+    public void setAssetClass(AssetClassType assetClass) { this.assetClass = assetClass; }
+
+    public Double getCurrentValue() { return currentValue; }
+    public void setCurrentValue(Double currentValue) {
+        this.currentValue = currentValue;
+    }
 }
