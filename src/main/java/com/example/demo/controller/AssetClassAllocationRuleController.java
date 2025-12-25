@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+
+import com.example.demo.entity.enums.AssetClassType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
