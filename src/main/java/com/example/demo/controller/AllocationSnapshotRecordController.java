@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.AllocationSnapshotRecord;
 import com.example.demo.service.AllocationSnapshotService;
 import org.springframework.web.bind.annotation.*;
+import com.example.demo.entity.enums.AssetClassType;
 
 import java.util.List;
 

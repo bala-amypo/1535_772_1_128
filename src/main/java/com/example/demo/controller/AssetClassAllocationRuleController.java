@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.entity.enums.AssetClassType;
 
 import com.example.demo.entity.enums.AssetClassType;
 import jakarta.persistence.*;
@@ -14,7 +15,7 @@ public class AssetClassAllocationRuleController {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private AssetClass assetClass;
+    private AssetClassType assetClass;
 
     @Min(0)
     @Max(100)

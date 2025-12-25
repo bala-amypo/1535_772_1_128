@@ -4,6 +4,7 @@ import com.example.demo.entity.InvestorProfile;
 import com.example.demo.service.InvestorProfileService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.demo.entity.enums.AssetClassType;
 
 import java.util.List;
 
