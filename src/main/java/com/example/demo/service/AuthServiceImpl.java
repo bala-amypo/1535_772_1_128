@@ -5,13 +5,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    @Override
-    public String login(String username, String password) {
-        return "LOGIN_SUCCESS";
+    public AuthResponse register(AuthRequest request) {
+        return new AuthResponse("dummy-token");
     }
 
-    @Override
-    public String register(String username, String password) {
-        return "REGISTER_SUCCESS";
+    public AuthResponse login(AuthRequest request) {
+        return new AuthResponse("dummy-token");
     }
 }

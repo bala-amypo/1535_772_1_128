@@ -15,13 +15,17 @@ public class RebalancingAlertServiceImpl implements RebalancingAlertService {
         this.repo = repo;
     }
 
-    @Override
-    public RebalancingAlertRecord save(RebalancingAlertRecord alert) {
-        return repo.save(alert);
+    public RebalancingAlertRecord save(RebalancingAlertRecord record) {
+        return repo.save(record);
     }
 
-    @Override
     public List<RebalancingAlertRecord> getByInvestorId(String investorId) {
         return repo.findByInvestorId(investorId);
+    }
+
+    public RebalancingAlertRecord resolve(Long id) {
+        RebalancingAlertRecord r = repo.findById(id).orElseThrow();
+        r.setResolved(true);
+        return repo.save(r);
     }
 }
