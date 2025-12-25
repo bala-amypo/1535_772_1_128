@@ -1,30 +1,28 @@
-package com.example.demo.controller;
+package com.example.demo.entity;
 
-import com.example.demo.entity.HoldingRecord;
-import com.example.demo.service.HoldingRecordService;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
-import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
-import java.util.List;
+@Entity
+public class HoldingRecord {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-@RestController
-@RequestMapping("/api/holdings")
-public class HoldingRecordController {
+    @NotBlank
+    private String assetName;
 
-    private final HoldingRecordService service;
+    @Enumerated(EnumType.STRING)
+    private AssetClass assetClass;
 
-    public HoldingRecordController(HoldingRecordService service) {
-        this.service = service;
-    }
+    @Positive
+    private double currentValue;
 
-    @PostMapping
-    public HoldingRecord add(@RequestBody HoldingRecord record) {
-        return service.add(record);
-    }
+    @ManyToOne
+    @JoinColumn(name = "investor_id")
+    private InvestorProfile investor;
 
-    @GetMapping("/investor/{id}")
-    public List<HoldingRecord> byInvestor(@PathVariable Long id) {
-        return service.getByInvestor(id);
-    }
+    // getters & setters
 }

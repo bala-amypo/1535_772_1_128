@@ -1,14 +1,25 @@
-package com.example.demo.controller;
+package com.example.demo.entity;
 
-import com.example.demo.entity.AssetClass;
-import org.springframework.web.bind.annotation.*;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 
-@RestController
-@RequestMapping("/api/asset-classes")
-public class AssetClassController {
+@Entity
+public class AssetClassAllocationRule {
 
-    @GetMapping
-    public AssetClass[] getAll() {
-        return AssetClass.values();
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private AssetClass assetClass;
+
+    @Min(0)
+    @Max(100)
+    private int targetPercentage;
+
+    @ManyToOne
+    private InvestorProfile investor;
+
+    // getters & setters
 }
