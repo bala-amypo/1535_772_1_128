@@ -1,7 +1,7 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.entity.AllocationSnapshotRecord;
-import com.example.demo.repository.AllocationSnapshotRecordRepository;
+import com.example.demo.repository.AllocationSnapshotRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.List;
 @Service
 public class AllocationSnapshotServiceImpl implements AllocationSnapshotService {
 
-    private final AllocationSnapshotRecordRepository repo;
+    private final AllocationSnapshotRepository repo;
 
-    public AllocationSnapshotServiceImpl(AllocationSnapshotRecordRepository repo) {
+    public AllocationSnapshotServiceImpl(AllocationSnapshotRepository repo) {
         this.repo = repo;
     }
 
@@ -21,7 +21,7 @@ public class AllocationSnapshotServiceImpl implements AllocationSnapshotService 
     }
 
     @Override
-    public List<AllocationSnapshotRecord> getByInvestorId(Long investorId) {
+    public List<AllocationSnapshotRecord> getByInvestorId(String investorId) {
         return repo.findByInvestorId(investorId);
     }
 }

@@ -1,8 +1,11 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.entity.InvestorProfile;
 import com.example.demo.repository.InvestorProfileRepository;
+import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class InvestorProfileServiceImpl implements InvestorProfileService {
@@ -13,11 +16,34 @@ public class InvestorProfileServiceImpl implements InvestorProfileService {
         this.repo = repo;
     }
 
-    public InvestorProfile create(InvestorProfile investor) {
+    @Override
+    public InvestorProfile save(InvestorProfile investor) {
         return repo.save(investor);
     }
 
-    public InvestorProfile get(Long id) {
-        return repo.findById(id).orElseThrow();
+    @Override
+    public InvestorProfile getByInvestorId(String investorId) {
+        return repo.findByInvestorId(investorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Investor not found"));
+    }
+
+    @Override
+    public List<InvestorProfile> getAll() {
+        return repo.findAll();
+    }
+
+    @Override
+    public InvestorProfile update(Long id, InvestorProfile investor) {
+        InvestorProfile existing = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Investor not found"));
+        existing.setName(investor.getName());
+        existing.setEmail(investor.getEmail());
+        existing.setActive(investor.getActive());
+        return repo.save(existing);
+    }
+
+    @Override
+    public void delete(Long id) {
+        repo.deleteById(id);
     }
 }

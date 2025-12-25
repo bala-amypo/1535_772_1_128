@@ -1,4 +1,4 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.entity.HoldingRecord;
 import com.example.demo.repository.HoldingRecordRepository;
@@ -16,12 +16,12 @@ public class HoldingRecordServiceImpl implements HoldingRecordService {
     }
 
     @Override
-    public HoldingRecord save(HoldingRecord holdingRecord) {
-        return repo.save(holdingRecord);
+    public HoldingRecord save(HoldingRecord record) {
+        return repo.save(record);
     }
 
     @Override
-    public List<HoldingRecord> getByInvestorId(Long investorId) {
+    public List<HoldingRecord> getByInvestorId(String investorId) {
         return repo.findByInvestorId(investorId);
     }
 }
