@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 @Entity
 public class InvestorProfile {
 
-  @Entity
-public class InvestorProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +18,6 @@ public class InvestorProfile {
     @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL)
     private List<HoldingRecord> holdings;
 
-}
 
     // getters
     public Long getId() { return id; }

@@ -3,18 +3,15 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "allocation_snapshot_record")
-public class AllocationSnapshotRecord {
+public class AllocationSnapshot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long investorId;
+    private String assetClass;
+    private Double percentage;
 
-    @Enumerated(EnumType.STRING)
-    private AssetClass assetClass;
-
-    private double currentPercentage;
-    private double totalPortfolioValue;
+    @ManyToOne
+    private InvestorProfile investor;
 }

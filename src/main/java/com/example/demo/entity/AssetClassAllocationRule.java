@@ -9,12 +9,14 @@ public class AssetClassAllocationRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long investorId;
+    private String assetClass;
 
-    @Enumerated(EnumType.STRING)
-    private AssetClass assetClass;
-
+    @Min(0) @Max(100)
     private Double targetPercentage;
+
+    @ManyToOne
+    private InvestorProfile investor;
+
 
     // getters & setters
     public Long getId() { return id; }
