@@ -1,24 +1,28 @@
 package com.example.demo.controller;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
+import com.example.demo.entity.RebalancingAlertRecord;
+import com.example.demo.service.RebalancingAlertService;
+import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.List;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class RebalancingAlertControllerTest {
+@RestController
+@RequestMapping("/api/alerts")
+public class RebalancingAlertRecordController {
 
-    @Autowired
-    private MockMvc mockMvc;
+    private final RebalancingAlertService service;
 
-    @Test
-    void resolveAlert() throws Exception {
-        mockMvc.perform(put("/api/alerts/resolve/1"))
-                .andExpect(status().isOk());
+    public RebalancingAlertRecordController(RebalancingAlertService service) {
+        this.service = service;
+    }
+
+    @GetMapping("/investor/{investorId}")
+    public List<RebalancingAlertRecord> getAlerts(@PathVariable Long investorId) {
+        return service.getAlerts(investorId);
+    }
+
+    @PutMapping("/resolve/{alertId}")
+    public RebalancingAlertRecord resolve(@PathVariable Long alertId) {
+        return service.resolveAlert(alertId);
     }
 }
