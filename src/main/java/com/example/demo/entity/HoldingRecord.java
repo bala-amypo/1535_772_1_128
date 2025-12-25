@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class HoldingRecord {
@@ -9,24 +10,15 @@ public class HoldingRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    private String assetClass;
-
-    @Positive
-    private Double value;
-
     @ManyToOne
     @JoinColumn(name = "investor_id")
     private InvestorProfile investor;
 
-    // getters & setters
-    public Long getId() { return id; }
-    public Long getInvestorId() { return investorId; }
-    public AssetClass getAssetClass() { return assetClass; }
-    public Double getCurrentValue() { return currentValue; }
+    @Enumerated(EnumType.STRING)
+    private AssetClass assetClass;
 
-    public void setId(Long id) { this.id = id; }
-    public void setInvestorId(Long investorId) { this.investorId = investorId; }
-    public void setAssetClass(AssetClass assetClass) { this.assetClass = assetClass; }
-    public void setCurrentValue(Double currentValue) { this.currentValue = currentValue; }
+    @Positive
+    private double currentValue;
+
+    // getters & setters
 }
