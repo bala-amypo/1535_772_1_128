@@ -3,6 +3,10 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import com.example.demo.entity.enums.AssetClassType;
+
+private AssetClassType assetClass;
+
 
 @Entity
 public class AssetClassAllocationRule {

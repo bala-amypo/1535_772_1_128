@@ -1,6 +1,9 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import com.example.demo.entity.enums.AssetClassType;
+
+private AssetClassType assetClass;
 
 @Entity
 @Table(name = "rebalancing_alert_records")
