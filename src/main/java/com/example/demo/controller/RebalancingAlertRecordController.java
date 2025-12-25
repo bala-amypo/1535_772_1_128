@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/alerts")
+@RequestMapping("/api/rebalancing-alerts")
 public class RebalancingAlertRecordController {
 
     private final RebalancingAlertService service;
@@ -19,11 +19,11 @@ public class RebalancingAlertRecordController {
 
     @PostMapping
     public RebalancingAlertRecord create(
-            @RequestBody RebalancingAlertRecord alert) {
-        return service.save(alert);
+            @RequestBody RebalancingAlertRecord record) {
+        return service.save(record);
     }
 
-    @GetMapping("/investor/{investorId}")
+    @GetMapping("/{investorId}")
     public List<RebalancingAlertRecord> getByInvestor(
             @PathVariable Long investorId) {
         return service.getByInvestorId(investorId);

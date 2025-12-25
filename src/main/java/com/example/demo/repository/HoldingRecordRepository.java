@@ -4,3 +4,5 @@ import com.example.demo.entity.InvestorProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HoldingRecordRepository extends JpaRepository<HoldingRecord, Long> {}
+
+List<HoldingRecord> findByInvestorId(Long investorId);
