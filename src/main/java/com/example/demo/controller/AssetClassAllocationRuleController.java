@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
 
 @Entity
-public class AssetClassAllocationRule {
+public class AssetClassAllocationRuleCo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
