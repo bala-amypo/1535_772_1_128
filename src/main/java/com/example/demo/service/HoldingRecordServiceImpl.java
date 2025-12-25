@@ -1,22 +1,24 @@
 package com.example.demo.service;
 
-import com.example.demo.model.HoldingRecordModel;
+import com.example.demo.entity.HoldingRecord;
+import com.example.demo.repository.HoldingRecordRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class HoldingRecordServiceImpl
-        implements HoldingRecordService {
+public class HoldingRecordServiceImpl implements HoldingRecordService {
 
-    @Override
-    public HoldingRecordModel add(HoldingRecordModel model) {
-        return model;
+    private final HoldingRecordRepository repo;
+
+    public HoldingRecordServiceImpl(HoldingRecordRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
-    public List<HoldingRecordModel> getByInvestor(Long investorId) {
-        return new ArrayList<>();
+    public HoldingRecord addHolding(HoldingRecord record) {
+        return repo.save(record);
+    }
+
+    public List<HoldingRecord> getHoldingsByInvestor(Long investorId) {
+        return repo.findByInvestorId(investorId);
     }
 }

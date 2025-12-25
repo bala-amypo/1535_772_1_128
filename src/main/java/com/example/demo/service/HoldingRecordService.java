@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.model.HoldingRecordModel;
+import com.example.demo.entity.HoldingRecord;
 import java.util.List;
 
 public interface HoldingRecordService {
-    HoldingRecordModel add(HoldingRecordModel model);
-    List<HoldingRecordModel> getByInvestor(Long investorId);
+    HoldingRecord addHolding(HoldingRecord record);
+    List<HoldingRecord> getHoldingsByInvestor(Long investorId);
 }
