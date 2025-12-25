@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.AllocationSnapshotRecord;
-import com.example.demo.service.AllocationSnapshotRecordService;
-import jakarta.validation.Valid;
+import com.example.demo.service.AllocationSnapshotService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,20 +10,19 @@ import java.util.List;
 @RequestMapping("/api/allocation-snapshots")
 public class AllocationSnapshotRecordController {
 
-    private final AllocationSnapshotRecordService service;
+    private final AllocationSnapshotService service;
 
-    public AllocationSnapshotRecordController(AllocationSnapshotRecordService service) {
+    public AllocationSnapshotRecordController(
+            AllocationSnapshotService service) {
         this.service = service;
     }
 
-    // CREATE snapshot
     @PostMapping
     public AllocationSnapshotRecord create(
-            @Valid @RequestBody AllocationSnapshotRecord snapshot) {
-        return service.save(snapshot);
+            @RequestBody AllocationSnapshotRecord record) {
+        return service.save(record);
     }
 
-    // GET snapshots by investor
     @GetMapping("/investor/{investorId}")
     public List<AllocationSnapshotRecord> getByInvestor(
             @PathVariable Long investorId) {
