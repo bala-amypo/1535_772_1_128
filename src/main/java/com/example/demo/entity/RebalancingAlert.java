@@ -9,10 +9,12 @@ public class RebalancingAlert {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String assetClass;
-    private String message;
-    private boolean resolved;
-
     @ManyToOne
     private InvestorProfile investor;
+
+    @Enumerated(EnumType.STRING)
+    private AlertSeverity severity;
+
+    private String message;
+    private boolean resolved;
 }

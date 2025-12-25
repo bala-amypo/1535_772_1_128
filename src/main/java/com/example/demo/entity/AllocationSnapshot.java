@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class AllocationSnapshot {
@@ -9,9 +10,10 @@ public class AllocationSnapshot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String assetClass;
-    private Double percentage;
-
     @ManyToOne
     private InvestorProfile investor;
+
+    private double totalValue;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
