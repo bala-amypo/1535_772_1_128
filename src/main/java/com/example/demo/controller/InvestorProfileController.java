@@ -12,25 +12,23 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class InvestorProfileControllerTest {
+@RestController
+@RequestMapping("/api/investors")
+public class InvestorProfileController {
 
-    @Autowired
-    private MockMvc mockMvc;
+    private final InvestorProfileService service;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    public InvestorProfileController(InvestorProfileService service) {
+        this.service = service;
+    }
 
-    @Test
-    void createInvestor() throws Exception {
-        InvestorProfile investor = new InvestorProfile();
-        investor.setName("Hari");
-        investor.setEmail("hari@gmail.com");
+    @PostMapping
+    public InvestorProfile create(@Valid @RequestBody InvestorProfile investor) {
+        return service.create(investor);
+    }
 
-        mockMvc.perform(post("/api/investors")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(investor)))
-                .andExpect(status().isOk());
+    @GetMapping("/{id}")
+    public InvestorProfile get(@PathVariable Long id) {
+        return service.get(id);
     }
 }

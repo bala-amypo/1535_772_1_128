@@ -10,19 +10,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final AuthService authService;
+    private final AuthService service;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
+    public AuthController(AuthService service) {
+        this.service = service;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody AuthRequest request) {
-        return ResponseEntity.ok(authService.register(request));
+    public AuthResponse register(@RequestBody AuthRequest req) {
+        return service.register(req);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
-        return ResponseEntity.ok(authService.login(request));
+    public AuthResponse login(@RequestBody AuthRequest req) {
+        return service.login(req);
     }
 }
+

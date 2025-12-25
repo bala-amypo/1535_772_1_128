@@ -17,12 +17,12 @@ public class HoldingRecordController {
     }
 
     @PostMapping
-    public HoldingRecord addHolding(@RequestBody HoldingRecord record) {
-        return service.addHolding(record);
+    public HoldingRecord add(@RequestBody HoldingRecord record) {
+        return service.add(record);
     }
 
-    @GetMapping("/investor/{investorId}")
-    public List<HoldingRecord> getHoldings(@PathVariable Long investorId) {
-        return service.getHoldingsByInvestor(investorId);
+    @GetMapping("/investor/{id}")
+    public List<HoldingRecord> byInvestor(@PathVariable Long id) {
+        return service.getByInvestor(id);
     }
 }
