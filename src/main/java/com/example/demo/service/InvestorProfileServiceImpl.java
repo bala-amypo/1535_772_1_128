@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.InvestorProfile;
 import com.example.demo.repository.InvestorProfileRepository;
