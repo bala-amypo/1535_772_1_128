@@ -1,44 +1,62 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-
-import java.util.List;
 
 @Entity
-@Table(name = "investor_profile")
+@Table(name = "investor_profiles")
 public class InvestorProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Full name is required")
-    private String fullName;
+    @Column(nullable = false, unique = true)
+    private String investorId;
 
-    @Email(message = "Invalid email")
-    @Column(unique = true)
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String email;
 
-    // 🔗 Relationships
-    @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HoldingRecord> holdings;
+    @Column(nullable = false)
+    private Boolean active;
 
-    @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AssetClassAllocationRule> allocationRules;
+    // 🔹 No-args constructor (MANDATORY for JPA & tests)
+    public InvestorProfile() {
+    }
 
-    // ✅ getters & setters
+    // 🔹 All-args constructor (TEST CASES EXPECT THIS)
+    public InvestorProfile(String investorId, String name, String email, Boolean active) {
+        this.investorId = investorId;
+        this.name = name;
+        this.email = email;
+        this.active = active;
+    }
+
+    // 🔹 Getters & Setters
     public Long getId() {
         return id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public String getInvestorId() {
+        return investorId;
+    }
+
+    public void setInvestorId(String investorId) {
+        this.investorId = investorId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -49,19 +67,11 @@ public class InvestorProfile {
         this.email = email;
     }
 
-    public List<HoldingRecord> getHoldings() {
-        return holdings;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setHoldings(List<HoldingRecord> holdings) {
-        this.holdings = holdings;
-    }
-
-    public List<AssetClassAllocationRule> getAllocationRules() {
-        return allocationRules;
-    }
-
-    public void setAllocationRules(List<AssetClassAllocationRule> allocationRules) {
-        this.allocationRules = allocationRules;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }
