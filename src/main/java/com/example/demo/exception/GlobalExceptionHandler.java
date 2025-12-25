@@ -1,7 +1,8 @@
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+package com.example.demo.exception;
+
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
+import java.util.*;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -10,7 +11,7 @@ public class GlobalExceptionHandler {
     public Map<String, String> handleValidation(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors()
-          .forEach(e -> errors.put(e.getField(), e.getDefaultMessage()));
+                .forEach(e -> errors.put(e.getField(), e.getDefaultMessage()));
         return errors;
     }
 }

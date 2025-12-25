@@ -1,18 +1,21 @@
-package com.example.demo.entity;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
+import com.example.demo.entity.AllocationSnapshot;
+import com.example.demo.service.AllocationSnapshotService;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-public class AllocationSnapshot {
+@RestController
+@RequestMapping("/api/snapshots")
+public class AllocationSnapshotController {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final AllocationSnapshotService service;
 
-    private double totalValue;
+    public AllocationSnapshotController(AllocationSnapshotService service) {
+        this.service = service;
+    }
 
-    @ManyToOne
-    private InvestorProfile investor;
-
-    // getters & setters
+    @PostMapping
+    public AllocationSnapshot create(@RequestBody AllocationSnapshot snapshot) {
+        return service.save(snapshot);
+    }
 }

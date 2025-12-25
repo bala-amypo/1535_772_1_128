@@ -1,26 +1,27 @@
-package com.example.demo.entity;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import java.util.List;
+import com.example.demo.entity.InvestorProfile;
+import com.example.demo.service.InvestorProfileService;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-public class InvestorProfile {
+@RestController
+@RequestMapping("/api/investors")
+public class InvestorProfileController {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final InvestorProfileService service;
 
-    @NotBlank
-    private String fullName;
+    public InvestorProfileController(InvestorProfileService service) {
+        this.service = service;
+    }
 
-    @NotBlank
-    private String email;
+    @PostMapping
+    public InvestorProfile create(@Valid @RequestBody InvestorProfile investor) {
+        return service.create(investor);
+    }
 
-    private boolean active = true;
-
-    @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL)
-    private List<HoldingRecord> holdings;
-
-    // getters & setters
+    @GetMapping("/{id}")
+    public InvestorProfile get(@PathVariable Long id) {
+        return service.get(id);
+    }
 }

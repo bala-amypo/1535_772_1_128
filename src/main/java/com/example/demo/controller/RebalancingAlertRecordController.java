@@ -1,18 +1,21 @@
-package com.example.demo.entity;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
+import com.example.demo.entity.RebalancingAlert;
+import com.example.demo.service.RebalancingAlertService;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-public class RebalancingAlert {
+@RestController
+@RequestMapping("/api/alerts")
+public class RebalancingAlertController {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final RebalancingAlertService service;
 
-    private String message;
+    public RebalancingAlertController(RebalancingAlertService service) {
+        this.service = service;
+    }
 
-    @ManyToOne
-    private InvestorProfile investor;
-
-    // getters & setters
+    @PostMapping
+    public RebalancingAlert create(@RequestBody RebalancingAlert alert) {
+        return service.save(alert);
+    }
 }
