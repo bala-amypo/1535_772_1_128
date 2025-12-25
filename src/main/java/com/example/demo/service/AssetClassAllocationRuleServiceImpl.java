@@ -1,24 +1,24 @@
 package com.example.demo.service;
 
-import com.example.demo.model.AssetClassAllocationRuleModel;
+import com.example.demo.entity.AssetClassAllocationRule;
+import com.example.demo.repository.AssetClassAllocationRuleRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AssetClassAllocationRuleServiceImpl
-        implements AssetClassAllocationRuleService {
+public class AllocationRuleServiceImpl implements AllocationRuleService {
 
-    @Override
-    public AssetClassAllocationRuleModel create(
-            AssetClassAllocationRuleModel model) {
-        return model;
+    private final AssetClassAllocationRuleRepository repo;
+
+    public AllocationRuleServiceImpl(AssetClassAllocationRuleRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
-    public List<AssetClassAllocationRuleModel> getByInvestor(
-            Long investorId) {
-        return new ArrayList<>();
+    public AssetClassAllocationRule createRule(AssetClassAllocationRule rule) {
+        return repo.save(rule);
+    }
+
+    public List<AssetClassAllocationRule> getRulesByInvestor(Long investorId) {
+        return repo.findByInvestorId(investorId);
     }
 }

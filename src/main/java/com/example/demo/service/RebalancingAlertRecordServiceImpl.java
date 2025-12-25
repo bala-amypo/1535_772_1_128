@@ -1,25 +1,26 @@
 package com.example.demo.service;
 
-import com.example.demo.model.RebalancingAlertRecordModel;
+import com.example.demo.entity.RebalancingAlertRecord;
+import com.example.demo.repository.RebalancingAlertRecordRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RebalancingAlertRecordServiceImpl
-        implements RebalancingAlertRecordService {
+public class RebalancingAlertServiceImpl implements RebalancingAlertService {
 
-    @Override
-    public List<RebalancingAlertRecordModel> getByInvestor(Long investorId) {
-        return new ArrayList<>();
+    private final RebalancingAlertRecordRepository repo;
+
+    public RebalancingAlertServiceImpl(RebalancingAlertRecordRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
-    public RebalancingAlertRecordModel resolve(Long id) {
-        RebalancingAlertRecordModel model = new RebalancingAlertRecordModel();
-        model.setId(id);
-        model.setResolved(true);
-        return model;
+    public List<RebalancingAlertRecord> getAlerts(Long investorId) {
+        return repo.findByInvestorId(investorId);
+    }
+
+    public RebalancingAlertRecord resolveAlert(Long alertId) {
+        RebalancingAlertRecord alert = repo.findById(alertId).orElseThrow();
+        alert.setResolved(true);
+        return repo.save(alert);
     }
 }
