@@ -9,21 +9,13 @@ public class InvestorProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String email;
-    private String fullName;
+    @NotBlank
+    private String name;
 
-    @Column(nullable = false)
-    private Boolean active = true;
+    private boolean active = true;
 
-    // getters
-    public Long getId() { return id; }
-    public String getEmail() { return email; }
-    public String getFullName() { return fullName; }
-    public Boolean getActive() { return active; }
+    @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL)
+    private List<HoldingRecord> holdings;
 
-    // setters
-    public void setId(Long id) { this.id = id; }
-    public void setEmail(String email) { this.email = email; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
-    public void setActive(Boolean active) { this.active = active; } // ✅ ADD THIS
+    // getters & setters
 }
