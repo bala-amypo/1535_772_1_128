@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.HoldingRecord;
 import com.example.demo.repository.HoldingRecordRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -14,11 +15,13 @@ public class HoldingRecordServiceImpl implements HoldingRecordService {
         this.repo = repo;
     }
 
-    public HoldingRecord add(HoldingRecord holding) {
-        return repo.save(holding);
+    @Override
+    public HoldingRecord save(HoldingRecord holdingRecord) {
+        return repo.save(holdingRecord);
     }
 
-    public List<HoldingRecord> getByInvestor(Long investorId) {
+    @Override
+    public List<HoldingRecord> getByInvestorId(Long investorId) {
         return repo.findByInvestorId(investorId);
     }
 }
