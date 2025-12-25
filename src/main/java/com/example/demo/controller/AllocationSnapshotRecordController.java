@@ -1,25 +1,24 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.AllocationSnapshotRecordModel;
-import com.example.demo.service.AllocationSnapshotRecordService;
-import org.springframework.web.bind.annotation.*;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RestController
-@RequestMapping("/api/snapshots")
-public class AllocationSnapshotRecordController {
+@SpringBootTest
+@AutoConfigureMockMvc
+class AllocationSnapshotControllerTest {
 
-    private final AllocationSnapshotRecordService service;
+    @Autowired
+    private MockMvc mockMvc;
 
-    public AllocationSnapshotRecordController(
-            AllocationSnapshotRecordService service) {
-        this.service = service;
-    }
-
-    @GetMapping("/investor/{investorId}")
-    public List<AllocationSnapshotRecordModel> getByInvestor(
-            @PathVariable Long investorId) {
-        return service.getByInvestor(investorId);
+    @Test
+    void getSnapshotsByInvestor() throws Exception {
+        mockMvc.perform(get("/api/snapshots/investor/1"))
+                .andExpect(status().isOk());
     }
 }
