@@ -5,15 +5,22 @@ import jakarta.persistence.*;
 @Entity
 public class InvestorProfile {
 
+  @Entity
+public class InvestorProfile {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String email;
-    private String fullName;
+    @NotBlank
+    private String name;
 
-    @Column(nullable = false)
-    private Boolean active = true;
+    private boolean active = true;
+
+    @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL)
+    private List<HoldingRecord> holdings;
+
+}
 
     // getters
     public Long getId() { return id; }

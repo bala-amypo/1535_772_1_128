@@ -1,26 +1,36 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.InvestorProfile;
-import com.example.demo.service.InvestorProfileService;
-import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-@RestController
-@RequestMapping("/api/investors")
-public class InvestorProfileController {
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-    private final InvestorProfileService service;
+@SpringBootTest
+@AutoConfigureMockMvc
+class InvestorProfileControllerTest {
 
-    public InvestorProfileController(InvestorProfileService service) {
-        this.service = service;
-    }
+    @Autowired
+    private MockMvc mockMvc;
 
-    @PostMapping
-    public InvestorProfile createInvestor(@RequestBody InvestorProfile investor) {
-        return service.createInvestor(investor);
-    }
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    @GetMapping("/{id}")
-    public InvestorProfile getInvestor(@PathVariable Long id) {
-        return service.getInvestor(id);
+    @Test
+    void createInvestor() throws Exception {
+        InvestorProfile investor = new InvestorProfile();
+        investor.setName("Hari");
+        investor.setEmail("hari@gmail.com");
+
+        mockMvc.perform(post("/api/investors")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(investor)))
+                .andExpect(status().isOk());
     }
 }
