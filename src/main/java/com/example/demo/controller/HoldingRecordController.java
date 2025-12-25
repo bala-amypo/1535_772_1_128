@@ -2,9 +2,11 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.HoldingRecord;
 import com.example.demo.service.HoldingRecordService;
-import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/holdings")
