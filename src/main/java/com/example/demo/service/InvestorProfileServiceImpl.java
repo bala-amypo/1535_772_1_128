@@ -13,11 +13,11 @@ public class InvestorProfileServiceImpl implements InvestorProfileService {
         this.repo = repo;
     }
 
-    public InvestorProfile createInvestor(InvestorProfile investor) {
+    public InvestorProfile create(InvestorProfile investor) {
         return repo.save(investor);
     }
 
-    public InvestorProfile getInvestor(Long id) {
+    public InvestorProfile get(Long id) {
         return repo.findById(id).orElseThrow();
     }
 }

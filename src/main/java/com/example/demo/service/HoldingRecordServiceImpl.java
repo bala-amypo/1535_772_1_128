@@ -14,11 +14,11 @@ public class HoldingRecordServiceImpl implements HoldingRecordService {
         this.repo = repo;
     }
 
-    public HoldingRecord addHolding(HoldingRecord record) {
-        return repo.save(record);
+    public HoldingRecord add(HoldingRecord holding) {
+        return repo.save(holding);
     }
 
-    public List<HoldingRecord> getHoldingsByInvestor(Long investorId) {
+    public List<HoldingRecord> getByInvestor(Long investorId) {
         return repo.findByInvestorId(investorId);
     }
 }
