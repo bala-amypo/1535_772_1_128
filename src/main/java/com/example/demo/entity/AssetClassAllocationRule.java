@@ -20,7 +20,7 @@ public class AssetClassAllocationRule {
     private InvestorProfile investor;
 
     @Enumerated(EnumType.STRING)
-    private AssetClass assetClass;
+    private AssetClassType assetClass;
 
     @Min(0)
     @Max(100)

@@ -22,7 +22,7 @@ public class HoldingRecord {
     private InvestorProfile investor;
 
     @Enumerated(EnumType.STRING)
-    private AssetClass assetClass;
+    private AssetClassType assetClass;
 
     @Positive
     private double currentValue;
