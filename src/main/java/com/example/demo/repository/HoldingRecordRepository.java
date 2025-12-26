@@ -11,8 +11,6 @@ public interface HoldingRecordRepository
 
     List<HoldingRecord> findByInvestorId(Long investorId);
 
-    List<HoldingRecord> findByValueGreaterThan(Double value);
-
   List<HoldingRecord> findByCurrentValueGreaterThan(Double value);
 
 List<HoldingRecord> findByHoldingValueGreaterThan(Double holdingValue);
