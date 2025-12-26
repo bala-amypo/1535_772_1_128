@@ -3,7 +3,7 @@ package com.example.demo.util;
 import com.example.demo.entity.HoldingRecord;
 import com.example.demo.entity.enums.AssetClassType;
 
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,28 +13,27 @@ public class AllocationUtils {
         // utility class
     }
 
-    /**
-     * Calculates allocation percentage per asset class.
-     */
-    public static Map<AssetClassType, Double> calculateAllocationPercentage(
+    public static Map<AssetClassType, Double> calculateAllocation(
             List<HoldingRecord> holdings,
-            double totalValue) {
+            double totalValue
+    ) {
 
-        Map<AssetClassType, Double> allocation = new EnumMap<>(AssetClassType.class);
+        Map<AssetClassType, Double> allocation = new HashMap<>();
 
         for (HoldingRecord holding : holdings) {
-            allocation.putIfAbsent(holding.getAssetClass(), 0.0);
+            AssetClassType assetClass = holding.getAssetClass();
+            double value = holding.getCurrentValue();
+
             allocation.put(
-                    holding.getAssetClass(),
-                    allocation.get(holding.getAssetClass()) + holding.getCurrentValue()
+                    assetClass,
+                    allocation.getOrDefault(assetClass, 0.0) + value
             );
         }
 
-        // convert value → percentage
-        for (AssetClassType type : allocation.keySet()) {
-            double percent = (allocation.get(type) / totalValue) * 100;
-            allocation.put(type, percent);
-        }
+        // convert values → percentages
+        allocation.replaceAll(
+                (k, v) -> (v / totalValue) * 100
+        );
 
         return allocation;
     }
