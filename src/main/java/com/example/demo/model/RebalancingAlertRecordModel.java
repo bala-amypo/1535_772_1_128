@@ -2,31 +2,17 @@ package com.example.demo.model;
 
 public class RebalancingAlertRecordModel {
 
-    private Long id;
-    private boolean resolved;
-    private String investorId;   
+    private String investorId;
+    private String message;
+    private String severity;
 
-    public Long getId() {
-        return id;
-    }
+    public RebalancingAlertRecordModel() {}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getInvestorId() { return investorId; }
+    public String getMessage() { return message; }
+    public String getSeverity() { return severity; }
 
-    public Long getInvestorId() {
-        return investorId;
-    }
-
-    public void setInvestorId(Long investorId) {
-        this.investorId = investorId;
-    }
-
-    public boolean isResolved() {
-        return resolved;
-    }
-
-    public void setResolved(boolean resolved) {
-        this.resolved = resolved;
-    }
+    public void setInvestorId(String investorId) { this.investorId = investorId; }
+    public void setMessage(String message) { this.message = message; }
+    public void setSeverity(String severity) { this.severity = severity; }
 }
