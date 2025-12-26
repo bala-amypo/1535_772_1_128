@@ -33,6 +33,6 @@ public class HoldingRecordServiceImpl implements HoldingRecordService {
 
     @Override
     public void delete(Long id) {
-        repository.deleteById(id);
+        repository.deleteById(id); // 🔥 THIS IS THE FIX
     }
 }
