@@ -7,5 +7,6 @@ public interface RebalancingAlertService {
 
     RebalancingAlertRecord save(RebalancingAlertRecord record);
 
-    List<RebalancingAlertRecord> getByInvestorId(Long investorId);
+List<RebalancingAlertRecord> getByInvestorId(String investorId);
+
 }

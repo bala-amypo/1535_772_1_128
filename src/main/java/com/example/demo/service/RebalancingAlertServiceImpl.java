@@ -1,11 +1,10 @@
 package com.example.demo.service;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.example.demo.entity.RebalancingAlertRecord;
 import com.example.demo.repository.RebalancingAlertRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RebalancingAlertServiceImpl implements RebalancingAlertService {
@@ -22,7 +21,9 @@ public class RebalancingAlertServiceImpl implements RebalancingAlertService {
     }
 
     @Override
-    public List<RebalancingAlertRecord> getByInvestorId(Long investorId) {
+    public List<RebalancingAlertRecord> getByInvestorId(String investorId) {
+        // ❌ OLD: repository.findByInvestorId(Long)
+        // ✅ NEW:
         return repository.findByInvestorId(investorId);
     }
 }

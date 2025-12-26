@@ -13,4 +13,5 @@ public interface RebalancingAlertRepository
 
     // ✅ CORRECT
     List<RebalancingAlertRecord> findByInvestorId(String investorId);
+
 }

@@ -9,6 +9,9 @@ public class RebalancingAlertRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(nullable = false)
+    private String investorId;
 
     @Column(name = "investor_id", nullable = false)
     private String investorId;
