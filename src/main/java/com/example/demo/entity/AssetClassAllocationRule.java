@@ -1,34 +1,31 @@
 package com.example.demo.entity;
 
+import com.example.demo.entity.enums.AssetClassType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
-@Table(name = "asset_allocation_rules")
+@Table(name = "asset_class_allocation_rules")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AssetAllocationRule {
+public class AssetClassAllocationRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Asset class is required")
-    private String assetClass; // EQUITY, DEBT, GOLD
+    @Column(nullable = false)
+    private Long investorId;
 
-    @NotNull(message = "Min allocation required")
-    @DecimalMin(value = "0.0")
-    @DecimalMax(value = "100.0")
-    private Double minAllocation;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AssetClassType assetClass;
 
-    @NotNull(message = "Max allocation required")
-    @DecimalMin(value = "0.0")
-    @DecimalMax(value = "100.0")
-    private Double maxAllocation;
+    @Column(nullable = false)
+    private Double targetPercentage;
 
-    @NotNull
+    @Column(nullable = false)
     private Boolean active = true;
 }

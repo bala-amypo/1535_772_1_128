@@ -1,11 +1,18 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "investor_profiles")
+@Table(
+    name = "investor_profiles",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "investorId"),
+        @UniqueConstraint(columnNames = "email")
+    }
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,14 +23,18 @@ public class InvestorProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Full name is required")
+    @Column(nullable = false, unique = true)
+    private String investorId;
+
+    @Column(nullable = false)
     private String fullName;
 
-    @Email(message = "Invalid email")
-    @NotBlank(message = "Email is required")
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @NotNull
+    @Column(nullable = false)
     private Boolean active = true;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
