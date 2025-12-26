@@ -18,15 +18,8 @@ public class AllocationSnapshotRecordController {
         this.service = service;
     }
 
-    @PostMapping
-    public AllocationSnapshotRecord create(
-            @RequestBody AllocationSnapshotRecord record) {
-        return service.save(record);
-    }
-
-    @GetMapping("/investor/{investorId}")
-    public List<AllocationSnapshotRecord> getByInvestor(
-            @PathVariable Long investorId) {
-        return service.getByInvestorId(investorId);
-    }
+   @GetMapping("/investor/{investorId}")
+public List<AllocationSnapshotRecord> getByInvestorId(
+        @PathVariable String investorId) {
+    return service.getByInvestorId(investorId);
 }

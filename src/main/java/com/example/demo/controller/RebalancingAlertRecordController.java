@@ -23,9 +23,10 @@ public class RebalancingAlertRecordController {
         return service.save(record);
     }
 
-    @GetMapping("/{investorId}")
-    public List<RebalancingAlertRecord> getByInvestor(
-            @PathVariable Long investorId) {
+    @GetMapping("/investor/{investorId}")
+    public List<RebalancingAlertRecord> getByInvestorId(
+        @PathVariable String investorId) {
         return service.getByInvestorId(investorId);
     }
+
 }

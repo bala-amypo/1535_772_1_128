@@ -22,8 +22,8 @@ public class HoldingRecordController {
     }
 
     @GetMapping("/investor/{investorId}")
-    public List<HoldingRecord> getByInvestor(
-            @PathVariable Long investorId) {
+    public List<HoldingRecord> getByInvestorId(
+        @PathVariable String investorId) {
         return service.getByInvestorId(investorId);
     }
 }
