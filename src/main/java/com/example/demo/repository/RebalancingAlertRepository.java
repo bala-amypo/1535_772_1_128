@@ -9,3 +9,9 @@ public interface RebalancingAlertRepository
 
     List<RebalancingAlertRecord> findByInvestorId(String investorId);
 }
+
+public interface AssetClassAllocationRuleRepository
+        extends JpaRepository<AssetClassAllocationRule, Long> {
+
+    List<AssetClassAllocationRule> findByInvestorId(Long investorId);
+}

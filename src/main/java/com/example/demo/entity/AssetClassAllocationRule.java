@@ -19,6 +19,10 @@ public class AssetClassAllocationRule {
 
     public AssetClassAllocationRule() {}
 
+    @Column(name = "investor_id")
+    private Long investorId;
+
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
