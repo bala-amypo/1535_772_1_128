@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "asset_class_allocation_rule")
 public class AssetClassAllocationRule {
+    @Column(name = "investor_id")
+    private String investorId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

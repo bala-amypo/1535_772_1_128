@@ -15,8 +15,8 @@ public class InvestorProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String investorId;   // STRING (important)
+    @Column(name = "investor_id")
+    private String investorId;
 
     @Column(nullable = false)
     private String name;
@@ -52,6 +52,8 @@ public class InvestorProfile {
     public String getInvestorId() {
         return investorId;
     }
+
+    
 
     public void setInvestorId(String investorId) {
         this.investorId = investorId;

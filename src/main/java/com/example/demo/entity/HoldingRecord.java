@@ -7,6 +7,9 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "holding_records")
 public class HoldingRecord {
+    
+    @Column(name = "investor_id")
+    private String investorId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

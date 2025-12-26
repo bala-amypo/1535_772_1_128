@@ -11,6 +11,7 @@ public class AllocationSnapshotRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "investor_id")
     private String investorId;
 
     private double totalPortfolioValue;
