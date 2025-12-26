@@ -1,7 +1,8 @@
 package com.example.demo.config;
 
+import com.example.demo.security.CustomUserDetailsService;
 import com.example.demo.security.JwtAuthenticationFilter;
-import com.example.demo.security.JwtTokenProvider;
+import com.example.demo.security.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,38 +17,39 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    // 🔐 Password encoder (TEST REQUIRED)
+    // ✅ Password encoder (tests expect this)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 🔑 AuthenticationManager
+    // ✅ Authentication manager
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+            AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 
-    // 🔐 JWT Provider (TEST USES THIS EXACT CONSTRUCTOR)
+    // ✅ JwtUtil bean (constructor required by filter)
     @Bean
-    public JwtTokenProvider jwtTokenProvider() {
-        return new JwtTokenProvider(
+    public JwtUtil jwtUtil() {
+        return new JwtUtil(
                 "thisIsA32ByteMinimumSecureJwtTestKey!",
                 3600000L
         );
     }
 
-    // 🔐 JWT Filter
+    // ✅ JwtAuthenticationFilter (FIXED)
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter(
-            JwtTokenProvider jwtTokenProvider) {
-        return new JwtAuthenticationFilter(jwtTokenProvider);
+            JwtUtil jwtUtil,
+            CustomUserDetailsService customUserDetailsService) {
+        return new JwtAuthenticationFilter(jwtUtil, customUserDetailsService);
     }
 
-    // 🔐 Security rules
+    // ✅ Security rules
     @Bean
-    public SecurityFilterChain filterChain(
+    public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
             JwtAuthenticationFilter jwtFilter) throws Exception {
 
@@ -58,10 +60,10 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/auth/**",
-                    "/swagger-ui/**",
-                    "/v3/api-docs/**",
-                    "/status"
+                        "/auth/**",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/status"
                 ).permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
