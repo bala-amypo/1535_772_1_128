@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.InvestorProfile;
 import com.example.demo.service.InvestorProfileService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,31 +18,29 @@ public class InvestorProfileController {
     }
 
     @PostMapping
-    public ResponseEntity<InvestorProfile> create(
-            @Valid @RequestBody InvestorProfile investor) {
-        return ResponseEntity.ok(service.create(investor));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<InvestorProfile>> getAll() {
-        return ResponseEntity.ok(service.getAll());
+    public ResponseEntity<InvestorProfile> create(@RequestBody InvestorProfile investor) {
+        return ResponseEntity.ok(service.createInvestor(investor));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<InvestorProfile> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getById(id));
+        return ResponseEntity.ok(service.getInvestorById(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<InvestorProfile> update(
+    @GetMapping
+    public ResponseEntity<List<InvestorProfile>> getAll() {
+        return ResponseEntity.ok(service.getAllInvestors());
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<InvestorProfile> updateStatus(
             @PathVariable Long id,
-            @Valid @RequestBody InvestorProfile investor) {
-        return ResponseEntity.ok(service.update(id, investor));
+            @RequestParam boolean active) {
+        return ResponseEntity.ok(service.updateInvestorStatus(id, active));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/lookup/{investorId}")
+    public ResponseEntity<InvestorProfile> lookup(@PathVariable String investorId) {
+        return ResponseEntity.ok(service.findByInvestorId(investorId));
     }
 }

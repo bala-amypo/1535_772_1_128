@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.AssetAllocationRule;
+import com.example.demo.entity.AssetClassAllocationRule;
 import com.example.demo.service.AssetAllocationRuleService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,40 +11,38 @@ import java.util.List;
 @RequestMapping("/api/allocation-rules")
 public class AssetAllocationRuleController {
 
-    private final AllocationRuleService service;
+    private final AssetAllocationRuleService service;
 
-    public AllocationRuleController(
-            AllocationRuleService service) {
+    public AssetAllocationRuleController(AssetAllocationRuleService service) {
         this.service = service;
     }
 
     @PostMapping
-    public ResponseEntity<AssetAllocationRule> create(
-            @Valid @RequestBody AssetAllocationRule rule) {
-        return ResponseEntity.ok(service.create(rule));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<AllocationRule>> getAll() {
-        return ResponseEntity.ok(service.getAll());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<AllocationRule> getById(
-            @PathVariable Long id) {
-        return ResponseEntity.ok(service.getById(id));
+    public ResponseEntity<AssetClassAllocationRule> create(
+            @RequestBody AssetClassAllocationRule rule) {
+        return ResponseEntity.ok(service.createRule(rule));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AssetAllocationRule> update(
+    public ResponseEntity<AssetClassAllocationRule> update(
             @PathVariable Long id,
-            @Valid @RequestBody AssetAllocationRule rule) {
-        return ResponseEntity.ok(service.update(id, rule));
+            @RequestBody AssetClassAllocationRule rule) {
+        return ResponseEntity.ok(service.updateRule(id, rule));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/investor/{investorId}")
+    public ResponseEntity<List<AssetClassAllocationRule>> getByInvestor(
+            @PathVariable Long investorId) {
+        return ResponseEntity.ok(service.getRulesByInvestor(investorId));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AssetClassAllocationRule> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getRuleById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AssetClassAllocationRule>> getAll() {
+        return ResponseEntity.ok(service.getRulesByInvestor(null));
     }
 }

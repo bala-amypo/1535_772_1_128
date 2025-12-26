@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.InvestorProfile;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.InvestorProfileRepository;
 import com.example.demo.service.InvestorProfileService;
 import org.springframework.stereotype.Service;
@@ -17,34 +18,31 @@ public class InvestorProfileServiceImpl implements InvestorProfileService {
     }
 
     @Override
-    public InvestorProfile create(InvestorProfile investor) {
+    public InvestorProfile createInvestor(InvestorProfile investor) {
         return repository.save(investor);
     }
 
     @Override
-    public List<InvestorProfile> getAll() {
+    public InvestorProfile getInvestorById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Investor not found"));
+    }
+
+    @Override
+    public InvestorProfile findByInvestorId(String investorId) {
+        return repository.findByInvestorId(investorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Investor not found"));
+    }
+
+    @Override
+    public List<InvestorProfile> getAllInvestors() {
         return repository.findAll();
     }
 
     @Override
-    public InvestorProfile getById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Investor not found"));
-    }
-
-    @Override
-    public InvestorProfile update(Long id, InvestorProfile investor) {
-        InvestorProfile existing = getById(id);
-
-        existing.setFullName(investor.getFullName());
-        existing.setEmail(investor.getEmail());
-        existing.setActive(investor.getActive());
-
-        return repository.save(existing);
-    }
-
-    @Override
-    public void delete(Long id) {
-        repository.deleteById(id);
+    public InvestorProfile updateInvestorStatus(Long id, boolean active) {
+        InvestorProfile investor = getInvestorById(id);
+        investor.setActive(active);
+        return repository.save(investor);
     }
 }
