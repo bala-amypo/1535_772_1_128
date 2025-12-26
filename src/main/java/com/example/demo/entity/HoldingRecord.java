@@ -1,35 +1,32 @@
 package com.example.demo.entity;
 
-import com.example.demo.entity.enums.AssetClassType;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 @Entity
+@Table(name = "holding_records")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class HoldingRecord {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String investorId;
+    @NotBlank(message = "Asset name is required")
+    private String assetName;
 
-    @Enumerated(EnumType.STRING)
-    private AssetClassType assetClass;
+    @NotNull(message = "Quantity is required")
+    @Min(value = 1, message = "Quantity must be > 0")
+    private Integer quantity;
 
-    private Double currentValue;
-    private LocalDateTime recordedAt;
+    @NotNull(message = "Price is required")
+    @DecimalMin(value = "0.0", inclusive = false)
+    private Double price;
 
-    public HoldingRecord() {}
-
-    public HoldingRecord(String investorId, AssetClassType assetClass,
-                         Double currentValue, LocalDateTime recordedAt) {
-        this.id = investorId + "-" + assetClass + "-" + recordedAt;
-        this.investorId = investorId;
-        this.assetClass = assetClass;
-        this.currentValue = currentValue;
-        this.recordedAt = recordedAt;
-    }
-
-    public String getId() { return id; }
-    public String getInvestorId() { return investorId; }
-    public Double getCurrentValue() { return currentValue; }
+    @NotNull
+    private Boolean active = true;
 }
