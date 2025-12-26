@@ -1,18 +1,10 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.AssetClassAllocationRule;
+import com.example.demo.entity.AssetAllocationRule;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface AssetClassAllocationRuleRepository
-        extends JpaRepository<AssetClassAllocationRule, String> {
-
-    List<AssetClassAllocationRule> findByInvestorId(String investorId);
-
-    // used in tests
-    List<AssetClassAllocationRule> findByInvestorIdAndActiveTrue(String investorId);
-
-    // mock HQL-style method
-    List<AssetClassAllocationRule> findActiveRulesHql(String investorId);
+@Repository
+public interface AssetAllocationRuleRepository
+        extends JpaRepository<AssetAllocationRule, Long> {
 }

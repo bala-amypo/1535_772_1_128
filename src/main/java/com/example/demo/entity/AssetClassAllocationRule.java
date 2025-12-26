@@ -1,38 +1,34 @@
 package com.example.demo.entity;
 
-import com.example.demo.entity.enums.AssetClassType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 @Entity
-public class AssetClassAllocationRule {
+@Table(name = "asset_allocation_rules")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class AssetAllocationRule {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String investorId;
+    @NotBlank(message = "Asset class is required")
+    private String assetClass; // EQUITY, DEBT, GOLD
 
-    @Enumerated(EnumType.STRING)
-    private AssetClassType assetClass;
+    @NotNull(message = "Min allocation required")
+    @DecimalMin(value = "0.0")
+    @DecimalMax(value = "100.0")
+    private Double minAllocation;
 
-    private Double targetPercentage;
-    private Boolean active;
+    @NotNull(message = "Max allocation required")
+    @DecimalMin(value = "0.0")
+    @DecimalMax(value = "100.0")
+    private Double maxAllocation;
 
-    public AssetClassAllocationRule() {}
-
-    public AssetClassAllocationRule(String investorId, AssetClassType assetClass,
-                                    Double targetPercentage, Boolean active) {
-        this.id = investorId + "-" + assetClass;
-        this.investorId = investorId;
-        this.assetClass = assetClass;
-        this.targetPercentage = targetPercentage;
-        this.active = active;
-    }
-
-    public String getId() { return id; }
-    public String getInvestorId() { return investorId; }
-    public AssetClassType getAssetClass() { return assetClass; }
-    public Double getTargetPercentage() { return targetPercentage; }
-    public Boolean getActive() { return active; }
-
-    public void setTargetPercentage(Double v) { this.targetPercentage = v; }
+    @NotNull
+    private Boolean active = true;
 }

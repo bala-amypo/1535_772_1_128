@@ -1,39 +1,54 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.AssetClassAllocationRule;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.AssetClassAllocationRuleRepository;
-import com.example.demo.service.AllocationRuleService;
+import com.example.demo.entity.AssetAllocationRule;
+import com.example.demo.repository.AssetAllocationRuleRepository;
+import com.example.demo.service.AssetAllocationRuleService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class AllocationRuleServiceImpl implements AllocationRuleService {
+public class AssetAllocationRuleServiceImpl
+        implements AssetAllocationRuleService {
 
-    private final AssetClassAllocationRuleRepository repository;
+    private final AssetAllocationRuleRepository repository;
 
-    public AllocationRuleServiceImpl(AssetClassAllocationRuleRepository repository) {
+    public AssetAllocationRuleServiceImpl(
+            AssetAllocationRuleRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public AssetClassAllocationRule save(AssetClassAllocationRule rule) {
+    public AssetAllocationRule create(AssetAllocationRule rule) {
         return repository.save(rule);
     }
 
     @Override
-    public AssetClassAllocationRule update(String id, AssetClassAllocationRule rule) {
-        AssetClassAllocationRule existing = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Rule not found: " + id));
+    public List<AssetAllocationRule> getAll() {
+        return repository.findAll();
+    }
 
-        existing.setTargetPercentage(rule.getTargetPercentage());
+    @Override
+    public AssetAllocationRule getById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Allocation rule not found"));
+    }
+
+    @Override
+    public AssetAllocationRule update(Long id, AssetAllocationRule rule) {
+        AssetAllocationRule existing = getById(id);
+
+        existing.setAssetClass(rule.getAssetClass());
+        existing.setMinAllocation(rule.getMinAllocation());
+        existing.setMaxAllocation(rule.getMaxAllocation());
         existing.setActive(rule.getActive());
+
         return repository.save(existing);
     }
 
     @Override
-    public List<AssetClassAllocationRule> getByInvestorId(String investorId) {
-        return repository.findByInvestorId(investorId);
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 }
