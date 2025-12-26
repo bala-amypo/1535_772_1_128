@@ -2,20 +2,17 @@ package com.example.demo.entity;
 
 import com.example.demo.entity.enums.RoleType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Table(
-    name = "user_accounts",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "username"),
-        @UniqueConstraint(columnNames = "email")
-    }
-)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "user_accounts")
 public class UserAccount {
 
     @Id
@@ -29,12 +26,11 @@ public class UserAccount {
     private String email;
 
     @Column(nullable = false)
-    private String password; // hashed (BCrypt in service)
+    private String password;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RoleType role;
 
-    @Column(nullable = false)
-    private Boolean active = true;
+    private boolean active;
 }
