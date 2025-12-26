@@ -1,14 +1,13 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.entity.RebalancingAlertRecord;
 import com.example.demo.service.RebalancingAlertService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/alerts")
+@RequestMapping("/rebalancing-alerts")
 public class RebalancingAlertRecordController {
 
     private final RebalancingAlertService service;
@@ -23,7 +22,9 @@ public class RebalancingAlertRecordController {
     }
 
     @GetMapping("/{investorId}")
-    public List<RebalancingAlertRecord> getByInvestorId(@PathVariable Long investorId) {
+    public List<RebalancingAlertRecord> getByInvestorId(
+            @PathVariable String investorId   // ✅ String, not Long
+    ) {
         return service.getByInvestorId(investorId);
     }
 }

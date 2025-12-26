@@ -13,9 +13,6 @@ public class RebalancingAlertRecord {
     @Column(nullable = false)
     private String investorId;
 
-    @Column(name = "investor_id", nullable = false)
-    private String investorId;
-
     private String message;
     private String severity;
 
