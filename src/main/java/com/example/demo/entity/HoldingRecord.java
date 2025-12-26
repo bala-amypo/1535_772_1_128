@@ -18,6 +18,8 @@ public class HoldingRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Double holdingValue;
+
     @Column(nullable = false)
     private Long investorId;
 

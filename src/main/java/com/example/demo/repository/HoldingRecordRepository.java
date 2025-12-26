@@ -15,4 +15,6 @@ public interface HoldingRecordRepository
 
   List<HoldingRecord> findByCurrentValueGreaterThan(Double value);
 
+List<HoldingRecord> findByHoldingValueGreaterThan(Double holdingValue);
+
 }
