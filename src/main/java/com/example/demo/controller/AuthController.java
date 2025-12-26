@@ -1,8 +1,9 @@
 package com.example.demo.controller;
-import com.example.demo.entity.enums.AssetClassType;
+
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
-import com.example.demo.service.AuthService;
+import com.example.demo.dto.RegisterRequest;
+import com.example.demo.service.UserAccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,20 +11,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final AuthService service;
+    private final UserAccountService service;
 
-    public AuthController(AuthService service) {
+    public AuthController(UserAccountService service) {
         this.service = service;
     }
 
     @PostMapping("/register")
-    public AuthResponse register(@RequestBody AuthRequest req) {
-        return service.register(req);
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        service.register(request);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest req) {
-        return service.login(req);
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+        return ResponseEntity.ok(service.login(request));
     }
 }
-

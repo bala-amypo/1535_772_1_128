@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.AllocationSnapshot;
+import com.example.demo.entity.AllocationSnapshotRecord;
 import com.example.demo.service.AllocationSnapshotService;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,31 +13,29 @@ public class AllocationSnapshotController {
 
     private final AllocationSnapshotService service;
 
-    public AllocationSnapshotController(
-            AllocationSnapshotService service) {
+    public AllocationSnapshotController(AllocationSnapshotService service) {
         this.service = service;
     }
 
-    @PostMapping
-    public ResponseEntity<AllocationSnapshot> create(
-            @Valid @RequestBody AllocationSnapshot snapshot) {
-        return ResponseEntity.ok(service.create(snapshot));
+    @PostMapping("/compute/{investorId}")
+    public ResponseEntity<AllocationSnapshotRecord> compute(
+            @PathVariable Long investorId) {
+        return ResponseEntity.ok(service.computeSnapshot(investorId));
     }
 
-    @GetMapping
-    public ResponseEntity<List<AllocationSnapshot>> getAll() {
-        return ResponseEntity.ok(service.getAll());
+    @GetMapping("/investor/{investorId}")
+    public ResponseEntity<List<AllocationSnapshotRecord>> getByInvestor(
+            @PathVariable Long investorId) {
+        return ResponseEntity.ok(service.getSnapshotsByInvestor(investorId));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AllocationSnapshot> getById(
-            @PathVariable Long id) {
-        return ResponseEntity.ok(service.getById(id));
+    public ResponseEntity<AllocationSnapshotRecord> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getSnapshotById(id));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping
+    public ResponseEntity<List<AllocationSnapshotRecord>> getAll() {
+        return ResponseEntity.ok(service.getAllSnapshots());
     }
 }
