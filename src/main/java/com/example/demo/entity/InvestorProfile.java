@@ -1,46 +1,44 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "investor_profiles")
+@Table(
+    name = "investor_profile",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "investor_id"),
+        @UniqueConstraint(columnNames = "email")
+    }
+)
 public class InvestorProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // DB PK (keep Long)
 
-    @Column(name = "investor_id")
-    private String investorId;
+    @Column(name = "investor_id", nullable = false, unique = true)
+    private String investorId; // BUSINESS ID (String)
 
     @Column(nullable = false)
-    private String name;
+    private String fullName;
 
     @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
-    private boolean active;
+    private Boolean active;
 
-    // ✅ No-arg constructor (JPA needs this)
-    public InvestorProfile() {
-    }
+    // ---------- constructors ----------
+    public InvestorProfile() {}
 
-    // ✅ All-args constructor (your testcases need this)
-    public InvestorProfile(String investorId, String name, String email, boolean active) {
+    public InvestorProfile(String investorId, String fullName, String email, Boolean active) {
         this.investorId = investorId;
-        this.name = name;
+        this.fullName = fullName;
         this.email = email;
         this.active = active;
     }
 
-    // ✅ getters & setters
-
+    // ---------- getters & setters ----------
     public Long getId() {
         return id;
     }
@@ -53,18 +51,16 @@ public class InvestorProfile {
         return investorId;
     }
 
-    
-
     public void setInvestorId(String investorId) {
         this.investorId = investorId;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -75,11 +71,11 @@ public class InvestorProfile {
         this.email = email;
     }
 
-    public boolean getActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 }
