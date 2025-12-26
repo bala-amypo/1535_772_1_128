@@ -1,33 +1,31 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "allocation_snapshots")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AllocationSnapshotRecord {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String investorId;
-    private LocalDateTime snapshotDate;
-    private Double totalPortfolioValue;
+    @NotBlank(message = "Asset class required")
+    private String assetClass; // EQUITY, DEBT, GOLD
 
-    @Lob
-    private String allocationJson;
+    @NotNull
+    @DecimalMin(value = "0.0")
+    @DecimalMax(value = "100.0")
+    private Double allocationPercentage;
 
-    public AllocationSnapshotRecord() {}
-
-    public AllocationSnapshotRecord(String investorId, LocalDateTime date,
-                                    Double value, String json) {
-        this.id = investorId + "-" + date;
-        this.investorId = investorId;
-        this.snapshotDate = date;
-        this.totalPortfolioValue = value;
-        this.allocationJson = json;
-    }
-
-    public String getInvestorId() { return investorId; }
-    public LocalDateTime getSnapshotDate() { return snapshotDate; }
-    public Double getTotalPortfolioValue() { return totalPortfolioValue; }
+    @NotNull
+    private LocalDateTime snapshotTime;
 }

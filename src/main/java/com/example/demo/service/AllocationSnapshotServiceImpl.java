@@ -1,40 +1,44 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.AllocationSnapshotRecord;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.AllocationSnapshotRecordRepository;
+import com.example.demo.entity.AllocationSnapshot;
+import com.example.demo.repository.AllocationSnapshotRepository;
 import com.example.demo.service.AllocationSnapshotService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class AllocationSnapshotServiceImpl implements AllocationSnapshotService {
+public class AllocationSnapshotServiceImpl
+        implements AllocationSnapshotService {
 
-    private final AllocationSnapshotRecordRepository repository;
+    private final AllocationSnapshotRepository repository;
 
-    public AllocationSnapshotServiceImpl(AllocationSnapshotRecordRepository repository) {
+    public AllocationSnapshotServiceImpl(
+            AllocationSnapshotRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public AllocationSnapshotRecord save(AllocationSnapshotRecord record) {
-        return repository.save(record);
+    public AllocationSnapshot create(AllocationSnapshot snapshot) {
+        snapshot.setSnapshotTime(LocalDateTime.now());
+        return repository.save(snapshot);
     }
 
     @Override
-    public List<AllocationSnapshotRecord> getByInvestorId(String investorId) {
-        return repository.findByInvestorId(investorId);
-    }
-
-    @Override
-    public AllocationSnapshotRecord getById(String id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Snapshot not found: " + id));
-    }
-
-    @Override
-    public List<AllocationSnapshotRecord> getAll() {
+    public List<AllocationSnapshot> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public AllocationSnapshot getById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Snapshot not found"));
+    }
+
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 }

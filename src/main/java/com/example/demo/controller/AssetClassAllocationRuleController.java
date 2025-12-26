@@ -1,28 +1,51 @@
-package com.example.demo.entity;
+package com.example.demo.controller;
 
-import com.example.demo.entity.enums.AssetClassType;
+import com.example.demo.entity.AssetAllocationRule;
+import com.example.demo.service.AssetAllocationRuleService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.enums.AssetClassType;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Max;
+import java.util.List;
 
-@Entity
-public class AssetClassAllocationRuleController {
+@RestController
+@RequestMapping("/api/allocation-rules")
+public class AssetAllocationRuleController {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final AssetAllocationRuleService service;
 
-    @Enumerated(EnumType.STRING)
-    private AssetClassType assetClass;
+    public AssetAllocationRuleController(
+            AssetAllocationRuleService service) {
+        this.service = service;
+    }
 
-    @Min(0)
-    @Max(100)
-    private int targetPercentage;
+    @PostMapping
+    public ResponseEntity<AssetAllocationRule> create(
+            @Valid @RequestBody AssetAllocationRule rule) {
+        return ResponseEntity.ok(service.create(rule));
+    }
 
-    @ManyToOne
-    private InvestorProfile investor;
+    @GetMapping
+    public ResponseEntity<List<AssetAllocationRule>> getAll() {
+        return ResponseEntity.ok(service.getAll());
+    }
 
-    // getters & setters
+    @GetMapping("/{id}")
+    public ResponseEntity<AssetAllocationRule> getById(
+            @PathVariable Long id) {
+        return ResponseEntity.ok(service.getById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AssetAllocationRule> update(
+            @PathVariable Long id,
+            @Valid @RequestBody AssetAllocationRule rule) {
+        return ResponseEntity.ok(service.update(id, rule));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
