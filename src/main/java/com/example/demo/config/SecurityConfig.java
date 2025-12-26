@@ -17,10 +17,13 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+   @Bean
     public JwtUtil jwtUtil() {
-        return new JwtUtil("my-secret-key-my-secret-key", 3600000);
+    // 32+ characters (REQUIRED)
+        String secret = "my-super-secret-jwt-key-1234567890";
+        return new JwtUtil(secret, 3600000);
     }
+
 
     @Bean
     public JwtAuthenticationFilter jwtFilter(JwtUtil jwtUtil) {
