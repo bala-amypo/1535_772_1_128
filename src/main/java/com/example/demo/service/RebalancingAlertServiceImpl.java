@@ -18,24 +18,20 @@ public class RebalancingAlertServiceImpl implements RebalancingAlertService {
     }
 
     @Override
-    public RebalancingAlertRecord createAlert(RebalancingAlertRecord alert) {
-        if (alert.getCurrentPercentage() <= alert.getTargetPercentage()) {
-            throw new IllegalArgumentException("currentPercentage > targetPercentage required");
-        }
+    public RebalancingAlertRecord save(RebalancingAlertRecord alert) {
         return repository.save(alert);
     }
 
     @Override
-    public RebalancingAlertRecord resolveAlert(String id) {
+    public List<RebalancingAlertRecord> getByInvestorId(String investorId) {
+        return repository.findByInvestorId(investorId);
+    }
+
+    @Override
+    public RebalancingAlertRecord resolve(String id) {
         RebalancingAlertRecord alert = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Alert not found: " + id));
-
         alert.setResolved(true);
         return repository.save(alert);
-    }
-
-    @Override
-    public List<RebalancingAlertRecord> getAlertsByInvestor(String investorId) {
-        return repository.findByInvestorId(investorId);
     }
 }

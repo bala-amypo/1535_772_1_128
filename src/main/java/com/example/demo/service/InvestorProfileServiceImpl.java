@@ -6,8 +6,7 @@ import com.example.demo.repository.InvestorProfileRepository;
 import com.example.demo.service.InvestorProfileService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class InvestorProfileServiceImpl implements InvestorProfileService {
@@ -19,30 +18,37 @@ public class InvestorProfileServiceImpl implements InvestorProfileService {
     }
 
     @Override
-    public InvestorProfile createInvestor(InvestorProfile investor) {
+    public InvestorProfile save(InvestorProfile investor) {
         return repository.save(investor);
     }
 
     @Override
-    public InvestorProfile getInvestorById(String id) {
+    public InvestorProfile getById(String id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Investor not found: " + id));
     }
 
     @Override
-    public List<InvestorProfile> getAllInvestors() {
+    public Optional<InvestorProfile> getByInvestorId(String investorId) {
+        return repository.findByInvestorId(investorId);
+    }
+
+    @Override
+    public List<InvestorProfile> getAll() {
         return repository.findAll();
     }
 
     @Override
-    public InvestorProfile updateInvestorStatus(String id, boolean active) {
-        InvestorProfile investor = getInvestorById(id);
-        investor.setActive(active);
-        return repository.save(investor);
+    public InvestorProfile update(String id, InvestorProfile investor) {
+        InvestorProfile existing = getById(id);
+        existing.setFullName(investor.getFullName());
+        existing.setEmail(investor.getEmail());
+        existing.setActive(investor.getActive());
+        return repository.save(existing);
     }
 
     @Override
-    public Optional<InvestorProfile> findByInvestorId(String investorId) {
-        return repository.findByInvestorId(investorId);
+    public void delete(String id) {
+        repository.deleteById(id);
     }
 }

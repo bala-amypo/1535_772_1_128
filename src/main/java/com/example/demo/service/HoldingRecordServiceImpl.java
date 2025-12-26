@@ -5,8 +5,7 @@ import com.example.demo.repository.HoldingRecordRepository;
 import com.example.demo.service.HoldingRecordService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class HoldingRecordServiceImpl implements HoldingRecordService {
@@ -18,20 +17,17 @@ public class HoldingRecordServiceImpl implements HoldingRecordService {
     }
 
     @Override
-    public HoldingRecord recordHolding(HoldingRecord record) {
-        if (record.getCurrentValue() <= 0) {
-            throw new IllegalArgumentException("Value must be > 0");
-        }
+    public HoldingRecord save(HoldingRecord record) {
         return repository.save(record);
     }
 
     @Override
-    public List<HoldingRecord> getHoldingsByInvestor(String investorId) {
+    public List<HoldingRecord> getByInvestorId(String investorId) {
         return repository.findByInvestorId(investorId);
     }
 
     @Override
-    public Optional<HoldingRecord> getHoldingById(String id) {
+    public Optional<HoldingRecord> getById(String id) {
         return repository.findById(id);
     }
 }

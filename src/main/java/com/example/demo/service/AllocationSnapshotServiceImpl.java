@@ -1,60 +1,40 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.*;
+import com.example.demo.entity.AllocationSnapshotRecord;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.*;
+import com.example.demo.repository.AllocationSnapshotRecordRepository;
 import com.example.demo.service.AllocationSnapshotService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class AllocationSnapshotServiceImpl implements AllocationSnapshotService {
 
-    private final AllocationSnapshotRecordRepository snapshotRepo;
-    private final HoldingRecordRepository holdingRepo;
-    private final AssetClassAllocationRuleRepository ruleRepo;
-    private final RebalancingAlertRecordRepository alertRepo;
+    private final AllocationSnapshotRecordRepository repository;
 
-    public AllocationSnapshotServiceImpl(
-            AllocationSnapshotRecordRepository snapshotRepo,
-            HoldingRecordRepository holdingRepo,
-            AssetClassAllocationRuleRepository ruleRepo,
-            RebalancingAlertRecordRepository alertRepo) {
-
-        this.snapshotRepo = snapshotRepo;
-        this.holdingRepo = holdingRepo;
-        this.ruleRepo = ruleRepo;
-        this.alertRepo = alertRepo;
+    public AllocationSnapshotServiceImpl(AllocationSnapshotRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public AllocationSnapshotRecord computeSnapshot(String investorId) {
-
-        List<HoldingRecord> holdings = holdingRepo.findByInvestorId(investorId);
-        if (holdings.isEmpty()) {
-            throw new IllegalArgumentException("No holdings found");
-        }
-
-        double total = holdings.stream()
-                .mapToDouble(HoldingRecord::getCurrentValue)
-                .sum();
-
-        AllocationSnapshotRecord snapshot =
-                new AllocationSnapshotRecord(investorId, LocalDateTime.now(), total, "{}");
-
-        return snapshotRepo.save(snapshot);
+    public AllocationSnapshotRecord save(AllocationSnapshotRecord record) {
+        return repository.save(record);
     }
 
     @Override
-    public AllocationSnapshotRecord getSnapshotById(String id) {
-        return snapshotRepo.findById(id)
+    public List<AllocationSnapshotRecord> getByInvestorId(String investorId) {
+        return repository.findByInvestorId(investorId);
+    }
+
+    @Override
+    public AllocationSnapshotRecord getById(String id) {
+        return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Snapshot not found: " + id));
     }
 
     @Override
-    public List<AllocationSnapshotRecord> getAllSnapshots() {
-        return snapshotRepo.findAll();
+    public List<AllocationSnapshotRecord> getAll() {
+        return repository.findAll();
     }
 }

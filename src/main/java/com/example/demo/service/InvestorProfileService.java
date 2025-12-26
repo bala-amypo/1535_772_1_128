@@ -1,19 +1,19 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.InvestorProfile;
-
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public interface InvestorProfileService {
 
-    InvestorProfile createInvestor(InvestorProfile investor);
+    InvestorProfile save(InvestorProfile investor);
 
-    InvestorProfile getInvestorById(String id);
+    InvestorProfile getById(String id);
 
-    List<InvestorProfile> getAllInvestors();
+    Optional<InvestorProfile> getByInvestorId(String investorId);
 
-    InvestorProfile updateInvestorStatus(String id, boolean active);
+    List<InvestorProfile> getAll();
 
-    Optional<InvestorProfile> findByInvestorId(String investorId);
+    InvestorProfile update(String id, InvestorProfile investor);
+
+    void delete(String id);
 }
