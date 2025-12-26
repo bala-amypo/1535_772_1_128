@@ -1,22 +1,13 @@
 package com.example.demo.dto;
 
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthRequest {
 
-    private String username;
+    private String email;
     private String password;
-
-    public AuthRequest() {}
-
-    public AuthRequest(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }

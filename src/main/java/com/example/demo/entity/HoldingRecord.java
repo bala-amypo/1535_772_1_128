@@ -1,8 +1,10 @@
 package com.example.demo.entity;
 
+import com.example.demo.entity.enums.AssetClassType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "holding_records")
@@ -16,17 +18,16 @@ public class HoldingRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Asset name is required")
-    private String assetName;
+    @Column(nullable = false)
+    private Long investorId;
 
-    @NotNull(message = "Quantity is required")
-    @Min(value = 1, message = "Quantity must be > 0")
-    private Integer quantity;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AssetClassType assetClass;
 
-    @NotNull(message = "Price is required")
-    @DecimalMin(value = "0.0", inclusive = false)
-    private Double price;
+    @Column(nullable = false)
+    private Double currentValue;
 
-    @NotNull
-    private Boolean active = true;
+    @Column(nullable = false)
+    private LocalDateTime snapshotDate = LocalDateTime.now();
 }

@@ -1,13 +1,12 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "allocation_snapshots")
+@Table(name = "allocation_snapshot_records")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,14 +17,16 @@ public class AllocationSnapshotRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Asset class required")
-    private String assetClass; // EQUITY, DEBT, GOLD
+    @Column(nullable = false)
+    private Long investorId;
 
-    @NotNull
-    @DecimalMin(value = "0.0")
-    @DecimalMax(value = "100.0")
-    private Double allocationPercentage;
+    @Column(nullable = false)
+    private LocalDateTime snapshotDate = LocalDateTime.now();
 
-    @NotNull
-    private LocalDateTime snapshotTime;
+    @Column(nullable = false)
+    private Double totalPortfolioValue;
+
+    @Lob
+    @Column(nullable = false)
+    private String allocationJson;
 }

@@ -1,11 +1,14 @@
 package com.example.demo.entity;
 
+import com.example.demo.entity.enums.AlertSeverity;
+import com.example.demo.entity.enums.AssetClassType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "rebalancing_alerts")
+@Table(name = "rebalancing_alert_records")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,19 +19,29 @@ public class RebalancingAlertRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Asset name is required")
-    private String assetName;
+    @Column(nullable = false)
+    private Long investorId;
 
-    @NotNull(message = "Target allocation is required")
-    @DecimalMin(value = "0.0", inclusive = false)
-    @DecimalMax(value = "100.0")
-    private Double targetAllocation; // %
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AssetClassType assetClass;
 
-    @NotNull(message = "Current allocation is required")
-    @DecimalMin(value = "0.0", inclusive = false)
-    @DecimalMax(value = "100.0")
-    private Double currentAllocation; // %
+    @Column(nullable = false)
+    private Double currentPercentage;
 
-    @NotNull
-    private Boolean triggered = false;
+    @Column(nullable = false)
+    private Double targetPercentage;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AlertSeverity severity;
+
+    @Column(nullable = false)
+    private String message;
+
+    @Column(nullable = false)
+    private LocalDateTime alertDate = LocalDateTime.now();
+
+    @Column(nullable = false)
+    private Boolean resolved = false;
 }
