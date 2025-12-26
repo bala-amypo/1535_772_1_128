@@ -34,12 +34,6 @@ public class HoldingRecordController {
     @GetMapping
     public List<HoldingRecord> getAll() {
         return service.getAllHoldings();
-    }
-    @GetMapping("/{id}")
-public HoldingRecord getById(@PathVariable Long id) {
-    return service.getHoldingById(id)
-            .orElseThrow(() ->
-                    new ResourceNotFoundException("Holding not found"));
-}
+    }  
 
 }
