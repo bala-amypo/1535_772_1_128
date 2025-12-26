@@ -11,7 +11,7 @@ public interface InvestorProfileService {
 
     List<InvestorProfile> getAll();
 
-    InvestorProfile update(Long i, InvestorProfile investor);
+    InvestorProfile update(String investorId, InvestorProfile investor);
 
     void delete(String investorId);
 }

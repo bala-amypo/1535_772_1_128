@@ -43,7 +43,7 @@ public class InvestorProfileServiceImpl implements InvestorProfileService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(String investorId) {
         repo.deleteById(id);
     }
 }
