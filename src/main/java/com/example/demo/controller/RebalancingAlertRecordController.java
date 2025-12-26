@@ -1,32 +1,29 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.RebalancingAlertRecord;
-import com.example.demo.service.RebalancingAlertService;
-import org.springframework.web.bind.annotation.*;
-import com.example.demo.entity.enums.AssetClassType;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.entity.RebalancingAlertRecord;
+import com.example.demo.service.RebalancingAlertService;
+
 @RestController
-@RequestMapping("/api/rebalancing-alerts")
+@RequestMapping("/alerts")
 public class RebalancingAlertRecordController {
 
     private final RebalancingAlertService service;
 
-    public RebalancingAlertRecordController(
-            RebalancingAlertService service) {
+    public RebalancingAlertRecordController(RebalancingAlertService service) {
         this.service = service;
     }
 
     @PostMapping
-    public RebalancingAlertRecord create(
-            @RequestBody RebalancingAlertRecord record) {
+    public RebalancingAlertRecord save(@RequestBody RebalancingAlertRecord record) {
         return service.save(record);
     }
 
-    @GetMapping("/investor/{investorId}")
-    public List<RebalancingAlertRecord> getByInvestorId(
-        @PathVariable String investorId) {
+    @GetMapping("/{investorId}")
+    public List<RebalancingAlertRecord> getByInvestorId(@PathVariable Long investorId) {
         return service.getByInvestorId(investorId);
     }
-
 }
