@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RebalancingAlertRepository
-        extends JpaRepository<RebalancingAlertRecord, Long> {
+        extends JpaRepository<RebalancingAlertRecord, String> {
 
-    List<RebalancingAlertRecord> findByInvestorId(String investorId); // ✅ String
+    List<RebalancingAlertRecord> findByInvestorId(String investorId);
 }
