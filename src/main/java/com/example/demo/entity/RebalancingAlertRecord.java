@@ -1,50 +1,34 @@
 package com.example.demo.entity;
 
-import com.example.demo.entity.enums.*;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 @Entity
+@Table(name = "rebalancing_alerts")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class RebalancingAlertRecord {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String investorId;
+    @NotBlank(message = "Asset name is required")
+    private String assetName;
 
-    @Enumerated(EnumType.STRING)
-    private AssetClassType assetClass;
+    @NotNull(message = "Target allocation is required")
+    @DecimalMin(value = "0.0", inclusive = false)
+    @DecimalMax(value = "100.0")
+    private Double targetAllocation; // %
 
-    private Double currentPercentage;
-    private Double targetPercentage;
+    @NotNull(message = "Current allocation is required")
+    @DecimalMin(value = "0.0", inclusive = false)
+    @DecimalMax(value = "100.0")
+    private Double currentAllocation; // %
 
-    @Enumerated(EnumType.STRING)
-    private AlertSeverity severity;
-
-    private String message;
-    private LocalDateTime createdAt;
-    private Boolean resolved;
-
-    public RebalancingAlertRecord() {}
-
-    public RebalancingAlertRecord(String investorId, AssetClassType assetClass,
-                                  Double current, Double target,
-                                  AlertSeverity severity,
-                                  String message, LocalDateTime time,
-                                  Boolean resolved) {
-        this.id = investorId + "-" + assetClass + "-" + time;
-        this.investorId = investorId;
-        this.assetClass = assetClass;
-        this.currentPercentage = current;
-        this.targetPercentage = target;
-        this.severity = severity;
-        this.message = message;
-        this.createdAt = time;
-        this.resolved = resolved;
-    }
-
-    public Boolean getResolved() { return resolved; }
-    public void setResolved(Boolean r) { this.resolved = r; }
-    public Double getCurrentPercentage() { return currentPercentage; }
-    public AlertSeverity getSeverity() { return severity; }
+    @NotNull
+    private Boolean triggered = false;
 }
