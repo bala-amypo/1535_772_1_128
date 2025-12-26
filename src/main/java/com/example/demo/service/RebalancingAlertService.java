@@ -5,5 +5,7 @@ import com.example.demo.entity.RebalancingAlertRecord;
 
 public interface RebalancingAlertService {
 
-    List<RebalancingAlertRecord> getAlerts(Long investorId);
+    RebalancingAlertRecord save(RebalancingAlertRecord record);
+
+    List<RebalancingAlertRecord> getByInvestorId(Long investorId);
 }

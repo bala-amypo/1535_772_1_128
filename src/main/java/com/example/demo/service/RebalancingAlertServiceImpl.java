@@ -17,7 +17,12 @@ public class RebalancingAlertServiceImpl implements RebalancingAlertService {
     }
 
     @Override
-    public List<RebalancingAlertRecord> getAlerts(Long investorId) {
+    public RebalancingAlertRecord save(RebalancingAlertRecord record) {
+        return repository.save(record);
+    }
+
+    @Override
+    public List<RebalancingAlertRecord> getByInvestorId(Long investorId) {
         return repository.findByInvestorId(investorId);
     }
 }
