@@ -11,5 +11,5 @@ public interface HoldingRecordService {
 
     List<HoldingRecord> getAll();
 
-    void delete(Long id);
+    void delete(String investorId);
 }

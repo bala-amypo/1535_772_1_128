@@ -9,7 +9,7 @@ public interface AssetClassAllocationRuleService {
 
     List<AssetClassAllocationRule> getAll();
 
-    AssetClassAllocationRule getById(Long id);
+    AssetClassAllocationRule getById(String investorId);
 
-    void delete(Long id);
+    void delete(String investorId);
 }

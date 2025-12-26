@@ -29,13 +29,13 @@ public class AssetClassAllocationRuleServiceImpl
     }
 
     @Override
-    public AssetClassAllocationRule getById(Long id) {
+    public AssetClassAllocationRule getById(String investorId) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Rule not found"));
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(String investorId) {
         repository.deleteById(id);
     }
 }

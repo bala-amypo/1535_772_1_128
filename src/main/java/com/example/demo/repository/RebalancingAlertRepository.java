@@ -8,10 +8,5 @@ import java.util.List;
 public interface RebalancingAlertRepository
         extends JpaRepository<RebalancingAlertRecord, Long> {
 
-    // ❌ WRONG
-    // List<RebalancingAlertRecord> findByInvestorId(Long investorId);
-
-    // ✅ CORRECT
-    List<RebalancingAlertRecord> findByInvestorId(String investorId);
-
+    List<RebalancingAlertRecord> findByInvestorId(String investorId); // ✅ String
 }
