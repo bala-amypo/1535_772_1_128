@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 @Entity
 public class UserAccount {
 
+    @Column(name = "investor_id")
+    private String investorId;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

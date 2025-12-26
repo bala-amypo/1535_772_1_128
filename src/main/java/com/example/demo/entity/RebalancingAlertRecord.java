@@ -11,6 +11,8 @@ public class RebalancingAlertRecord {
     private Long id;
 
     private String investorId;
+    @Column(name = "investor_id")
+    private String investorId;
 
     @Enumerated(EnumType.STRING)
     private AssetClassType assetClass;
