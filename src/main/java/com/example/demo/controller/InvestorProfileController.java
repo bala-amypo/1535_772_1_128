@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
-import java.util.List;
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.entity.InvestorProfile;
 import com.example.demo.service.InvestorProfileService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/investors")
@@ -17,28 +19,31 @@ public class InvestorProfileController {
     }
 
     @PostMapping
-    public InvestorProfile create(@RequestBody InvestorProfile investor) {
-        return service.save(investor);
-    }
-
-    @GetMapping("/{investorId}")
-    public InvestorProfile getByInvestorId(@PathVariable String investorId) {
-        return service.getByInvestorId(investorId);
+    public ResponseEntity<InvestorProfile> create(
+            @Valid @RequestBody InvestorProfile investor) {
+        return ResponseEntity.ok(service.create(investor));
     }
 
     @GetMapping
-    public List<InvestorProfile> getAll() {
-        return service.getAll();
+    public ResponseEntity<List<InvestorProfile>> getAll() {
+        return ResponseEntity.ok(service.getAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<InvestorProfile> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PutMapping("/{id}")
-    public InvestorProfile update(@PathVariable Long id,
-                                  @RequestBody InvestorProfile investor) {
-        return service.update(id, investor);
+    public ResponseEntity<InvestorProfile> update(
+            @PathVariable Long id,
+            @Valid @RequestBody InvestorProfile investor) {
+        return ResponseEntity.ok(service.update(id, investor));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,12 +1,11 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.InvestorProfile;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.InvestorProfileRepository;
 import com.example.demo.service.InvestorProfileService;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 
 @Service
 public class InvestorProfileServiceImpl implements InvestorProfileService {
@@ -18,19 +17,8 @@ public class InvestorProfileServiceImpl implements InvestorProfileService {
     }
 
     @Override
-    public InvestorProfile save(InvestorProfile investor) {
+    public InvestorProfile create(InvestorProfile investor) {
         return repository.save(investor);
-    }
-
-    @Override
-    public InvestorProfile getById(String id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Investor not found: " + id));
-    }
-
-    @Override
-    public Optional<InvestorProfile> getByInvestorId(String investorId) {
-        return repository.findByInvestorId(investorId);
     }
 
     @Override
@@ -39,16 +27,24 @@ public class InvestorProfileServiceImpl implements InvestorProfileService {
     }
 
     @Override
-    public InvestorProfile update(String id, InvestorProfile investor) {
+    public InvestorProfile getById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Investor not found"));
+    }
+
+    @Override
+    public InvestorProfile update(Long id, InvestorProfile investor) {
         InvestorProfile existing = getById(id);
+
         existing.setFullName(investor.getFullName());
         existing.setEmail(investor.getEmail());
         existing.setActive(investor.getActive());
+
         return repository.save(existing);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         repository.deleteById(id);
     }
 }
