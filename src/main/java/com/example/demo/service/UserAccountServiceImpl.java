@@ -8,6 +8,7 @@ import com.example.demo.entity.UserAccount;
 import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.service.UserAccountService;
 
+
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -29,7 +30,8 @@ public class UserAccountServiceImpl implements UserAccountService {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(RoleType.valueOf(request.getRole()));
+        user.setRole(RoleType.valueOf(request.getRole().toUpperCase()));
+
         user.setActive(true);
 
         repository.save(user);
