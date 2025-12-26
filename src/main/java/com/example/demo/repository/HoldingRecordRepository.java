@@ -13,6 +13,6 @@ public interface HoldingRecordRepository
 
     List<HoldingRecord> findByValueGreaterThan(Double value);
 
-    List<HoldingRecord> findByInvestorAndAssetClass(
-            Long investorId, AssetClassType assetClass);
+  List<HoldingRecord> findByCurrentValueGreaterThan(Double value);
+
 }
