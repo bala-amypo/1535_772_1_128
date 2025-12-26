@@ -10,3 +10,4 @@ public interface AssetClassAllocationRuleRepository
 
     List<AssetClassAllocationRule> findByInvestorId(Long investorId);
 }
+
