@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.HoldingRecord;
 import com.example.demo.service.HoldingRecordService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,23 +17,22 @@ public class HoldingRecordController {
     }
 
     @PostMapping
-    public ResponseEntity<HoldingRecord> create(@RequestBody HoldingRecord holding) {
-        return ResponseEntity.ok(service.recordHolding(holding));
+    public HoldingRecord create(@RequestBody HoldingRecord record) {
+        return service.recordHolding(record);
     }
 
     @GetMapping("/investor/{investorId}")
-    public ResponseEntity<List<HoldingRecord>> getByInvestor(
-            @PathVariable Long investorId) {
-        return ResponseEntity.ok(service.getHoldingsByInvestor(investorId));
+    public List<HoldingRecord> byInvestor(@PathVariable Long investorId) {
+        return service.getHoldingsByInvestor(investorId);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HoldingRecord> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getHoldingById(id));
+    public HoldingRecord get(@PathVariable Long id) {
+        return service.getHoldingById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<HoldingRecord>> getAll() {
-        return ResponseEntity.ok(service.getAllHoldings());
+    public List<HoldingRecord> getAll() {
+        return service.getAllHoldings();
     }
 }

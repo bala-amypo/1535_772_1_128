@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.InvestorProfile;
 import com.example.demo.service.InvestorProfileService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,29 +17,29 @@ public class InvestorProfileController {
     }
 
     @PostMapping
-    public ResponseEntity<InvestorProfile> create(@RequestBody InvestorProfile investor) {
-        return ResponseEntity.ok(service.createInvestor(investor));
+    public InvestorProfile create(@RequestBody InvestorProfile investor) {
+        return service.createInvestor(investor);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<InvestorProfile> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getInvestorById(id));
+    public InvestorProfile getById(@PathVariable Long id) {
+        return service.getInvestorById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<InvestorProfile>> getAll() {
-        return ResponseEntity.ok(service.getAllInvestors());
+    public List<InvestorProfile> getAll() {
+        return service.getAllInvestors();
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<InvestorProfile> updateStatus(
-            @PathVariable Long id,
-            @RequestParam boolean active) {
-        return ResponseEntity.ok(service.updateInvestorStatus(id, active));
+    public InvestorProfile updateStatus(@PathVariable Long id,
+                                        @RequestParam boolean active) {
+        return service.updateInvestorStatus(id, active);
     }
 
     @GetMapping("/lookup/{investorId}")
-    public ResponseEntity<InvestorProfile> lookup(@PathVariable String investorId) {
-        return ResponseEntity.ok(service.findByInvestorId(investorId));
+    public InvestorProfile lookup(@PathVariable String investorId) {
+        return service.findByInvestorId(investorId)
+                .orElseThrow(() -> new RuntimeException("Investor not found"));
     }
 }
