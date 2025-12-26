@@ -5,61 +5,37 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "asset_class_allocation_rule")
 public class AssetClassAllocationRule {
-    @Column(name = "investor_id")
-    private String investorId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ✅ ONLY ONCE, ONLY Long
     @Column(name = "investor_id", nullable = false)
-    private Long investorId;
+    private String investorId;
 
-    @Column(nullable = false)
     private String assetClass;
+    private Double minPercent;
+    private Double maxPercent;
 
-    @Column(nullable = false)
-    private Double minPercentage;
+    public AssetClassAllocationRule() {}
 
-    @Column(nullable = false)
-    private Double maxPercentage;
-
-    /* ===== getters & setters ===== */
-
-    public Long getId() {
-        return id;
-    }
-
-    public Long getInvestorId() {
-        return investorId;
-    }
-
-    public void setInvestorId(Long investorId) {
+    public AssetClassAllocationRule(String investorId, String assetClass,
+                                    Double minPercent, Double maxPercent) {
         this.investorId = investorId;
-    }
-
-    public String getAssetClass() {
-        return assetClass;
-    }
-
-    public void setAssetClass(String assetClass) {
         this.assetClass = assetClass;
+        this.minPercent = minPercent;
+        this.maxPercent = maxPercent;
     }
 
-    public Double getMinPercentage() {
-        return minPercentage;
-    }
+    public Long getId() { return id; }
+    public String getInvestorId() { return investorId; }
+    public String getAssetClass() { return assetClass; }
+    public Double getMinPercent() { return minPercent; }
+    public Double getMaxPercent() { return maxPercent; }
 
-    public void setMinPercentage(Double minPercentage) {
-        this.minPercentage = minPercentage;
-    }
-
-    public Double getMaxPercentage() {
-        return maxPercentage;
-    }
-
-    public void setMaxPercentage(Double maxPercentage) {
-        this.maxPercentage = maxPercentage;
-    }
+    public void setId(Long id) { this.id = id; }
+    public void setInvestorId(String investorId) { this.investorId = investorId; }
+    public void setAssetClass(String assetClass) { this.assetClass = assetClass; }
+    public void setMinPercent(Double minPercent) { this.minPercent = minPercent; }
+    public void setMaxPercent(Double maxPercent) { this.maxPercent = maxPercent; }
 }
