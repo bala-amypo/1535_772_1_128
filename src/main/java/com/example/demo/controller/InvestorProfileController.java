@@ -1,12 +1,10 @@
 package com.example.demo.controller;
 
+import java.util.List;
+import org.springframework.web.bind.annotation.*;
+
 import com.example.demo.entity.InvestorProfile;
 import com.example.demo.service.InvestorProfileService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import com.example.demo.entity.enums.AssetClassType;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/investors")
@@ -18,36 +16,29 @@ public class InvestorProfileController {
         this.service = service;
     }
 
-    // CREATE
     @PostMapping
-    public ResponseEntity<InvestorProfile> create(@RequestBody InvestorProfile investor) {
-        return ResponseEntity.ok(service.save(investor));
+    public InvestorProfile create(@RequestBody InvestorProfile investor) {
+        return service.save(investor);
     }
 
-    // GET BY INVESTOR ID
     @GetMapping("/{investorId}")
-    public ResponseEntity<InvestorProfile> getByInvestorId(@PathVariable String investorId) {
-        return ResponseEntity.ok(service.getByInvestorId(investorId));
+    public InvestorProfile getByInvestorId(@PathVariable String investorId) {
+        return service.getByInvestorId(investorId);
     }
 
-    // GET ALL
     @GetMapping
-    public ResponseEntity<List<InvestorProfile>> getAll() {
-        return ResponseEntity.ok(service.getAll());
+    public List<InvestorProfile> getAll() {
+        return service.getAll();
     }
 
-    // UPDATE
     @PutMapping("/{id}")
-    public ResponseEntity<InvestorProfile> update(
-            @PathVariable Long id,
-            @RequestBody InvestorProfile investor) {
-        return ResponseEntity.ok(service.update(id, investor));
+    public InvestorProfile update(@PathVariable Long id,
+                                  @RequestBody InvestorProfile investor) {
+        return service.update(id, investor);
     }
 
-    // DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         service.delete(id);
-        return ResponseEntity.noContent().build();
     }
 }
