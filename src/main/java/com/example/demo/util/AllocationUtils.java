@@ -9,32 +9,32 @@ import java.util.Map;
 
 public class AllocationUtils {
 
-    private AllocationUtils() {
-        // utility class
-    }
-
-    public static Map<AssetClassType, Double> calculateAllocation(
+    /**
+     * Calculates allocation percentage per AssetClassType
+     */
+    public static Map<AssetClassType, Double> calculateAllocationPercentages(
             List<HoldingRecord> holdings,
-            double totalValue
+            double totalPortfolioValue
     ) {
 
-        Map<AssetClassType, Double> allocation = new HashMap<>();
+        Map<AssetClassType, Double> allocationMap = new HashMap<>();
 
         for (HoldingRecord holding : holdings) {
             AssetClassType assetClass = holding.getAssetClass();
             double value = holding.getCurrentValue();
 
-            allocation.put(
+            allocationMap.put(
                     assetClass,
-                    allocation.getOrDefault(assetClass, 0.0) + value
+                    allocationMap.getOrDefault(assetClass, 0.0) + value
             );
         }
 
-        // convert values → percentages
-        allocation.replaceAll(
-                (k, v) -> (v / totalValue) * 100
-        );
+        // convert values to percentages
+        for (Map.Entry<AssetClassType, Double> entry : allocationMap.entrySet()) {
+            double percentage = (entry.getValue() / totalPortfolioValue) * 100;
+            allocationMap.put(entry.getKey(), percentage);
+        }
 
-        return allocation;
+        return allocationMap;
     }
 }
