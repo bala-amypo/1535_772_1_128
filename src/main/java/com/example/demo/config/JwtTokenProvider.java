@@ -1,25 +1,25 @@
-package com.example.demo.security;
+package com.example.demo.config;
 
 import com.example.demo.entity.UserAccount;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.Authentication;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 public class JwtTokenProvider {
 
-    private final Key key;
+    private final SecretKey key;
     private final long validityInMs;
 
-    // REQUIRED by tests
+    // ✅ Constructor EXACTLY as used in test
     public JwtTokenProvider(String secret, long validityInMs) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
         this.validityInMs = validityInMs;
     }
 
-    // Used in tests
+    // ✅ Used in tests
     public String generateToken(Authentication authentication, UserAccount user) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + validityInMs);
@@ -35,6 +35,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    // ✅ Used in tests
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
@@ -42,11 +43,12 @@ public class JwtTokenProvider {
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
+        } catch (JwtException | IllegalArgumentException ex) {
             return false;
         }
     }
 
+    // ✅ Used in tests
     public String getUsernameFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
