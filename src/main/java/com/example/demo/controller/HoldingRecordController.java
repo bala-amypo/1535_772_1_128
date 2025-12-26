@@ -1,39 +1,45 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.HoldingRecord;
-import com.example.demo.service.HoldingRecordService;
+import com.example.demo.entity.AssetClassAllocationRule;
+import com.example.demo.service.AllocationRuleService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/holdings")
-public class HoldingRecordController {
+@RequestMapping("/api/allocation-rules")
+public class AssetClassAllocationRuleController {
 
-    private final HoldingRecordService service;
+    private final AllocationRuleService service;
 
-    public HoldingRecordController(HoldingRecordService service) {
+    public AssetClassAllocationRuleController(AllocationRuleService service) {
         this.service = service;
     }
 
     @PostMapping
-    public HoldingRecord create(@RequestBody HoldingRecord record) {
-        return service.recordHolding(record);
+    public AssetClassAllocationRule create(@RequestBody AssetClassAllocationRule rule) {
+        return service.createRule(rule);
+    }
+
+    @PutMapping("/{id}")
+    public AssetClassAllocationRule update(
+            @PathVariable Long id,
+            @RequestBody AssetClassAllocationRule rule) {
+        return service.updateRule(id, rule);
     }
 
     @GetMapping("/investor/{investorId}")
-    public List<HoldingRecord> byInvestor(@PathVariable Long investorId) {
-        return service.getHoldingsByInvestor(investorId);
+    public List<AssetClassAllocationRule> getByInvestor(@PathVariable Long investorId) {
+        return service.getRulesByInvestor(investorId);
     }
 
     @GetMapping("/{id}")
-    public HoldingRecord get(@PathVariable Long id) {
-        return service.getHoldingById(id);
+    public AssetClassAllocationRule getById(@PathVariable Long id) {
+        return service.getRuleById(id);
     }
 
     @GetMapping
-    public List<HoldingRecord> getAll() {
-        return service.getAllHoldings();
-    }  
-
+    public List<AssetClassAllocationRule> getAll() {
+        return service.getAllRules();
+    }
 }
