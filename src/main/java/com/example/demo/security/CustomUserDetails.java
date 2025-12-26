@@ -1,56 +1,38 @@
 package com.example.demo.security;
 
 import com.example.demo.entity.UserAccount;
-import org.springframework.security.core.GrantedAuthority;
+import com.example.demo.repository.UserAccountRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.*;
+import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
-public class CustomUserDetails implements UserDetails {
-    private final UserAccount userAccount;
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
 
-    public CustomUserDetails(UserAccount userAccount) {
-        this.userAccount = userAccount;
+    private final UserAccountRepository userAccountRepository;
+
+    public CustomUserDetailsService(UserAccountRepository userAccountRepository) {
+        this.userAccountRepository = userAccountRepository;
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + userAccount.getRole().name()));
-    }
+    public UserDetails loadUserByUsername(String email)
+            throws UsernameNotFoundException {
 
-    @Override
-    public String getPassword() {
-        return userAccount.getPassword();
-    }
+        UserAccount user = userAccountRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found"));
 
-    @Override
-    public String getUsername() {
-        return userAccount.getUsername();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return userAccount.getActive();
-    }
-
-    public UserAccount getUserAccount() {
-        return userAccount;
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                user.getActive(),
+                true,
+                true,
+                true,
+                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+        );
     }
 }

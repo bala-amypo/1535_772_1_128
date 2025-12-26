@@ -3,17 +3,15 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.AssetClassAllocationRule;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.AssetClassAllocationRuleRepository;
-import com.example.demo.service.AssetAllocationRuleService;
-import org.springframework.stereotype.Service;
+import com.example.demo.service.AllocationRuleService;
 
 import java.util.List;
 
-@Service
-public class AssetAllocationRuleServiceImpl implements AssetAllocationRuleService {
+public class AllocationRuleServiceImpl implements AllocationRuleService {
 
     private final AssetClassAllocationRuleRepository repository;
 
-    public AssetAllocationRuleServiceImpl(AssetClassAllocationRuleRepository repository) {
+    public AllocationRuleServiceImpl(AssetClassAllocationRuleRepository repository) {
         this.repository = repository;
     }
 
@@ -48,11 +46,17 @@ public class AssetAllocationRuleServiceImpl implements AssetAllocationRuleServic
     @Override
     public AssetClassAllocationRule getRuleById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Rule not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Rule not found: " + id));
     }
 
-    private void validate(Double value) {
-        if (value < 0 || value > 100) {
+    @Override
+    public List<AssetClassAllocationRule> getAllRules() {
+        return repository.findAll();
+    }
+
+    private void validate(Double percentage) {
+        if (percentage < 0 || percentage > 100) {
             throw new IllegalArgumentException("between 0 and 100");
         }
     }
