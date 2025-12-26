@@ -12,7 +12,7 @@ public class JwtUtil {
     private final long validityInMs;
 
     public JwtUtil(String secret, long validityInMs) {
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // ✅ auto secure
+        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // secure key
         this.validityInMs = validityInMs;
     }
 
@@ -30,7 +30,22 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Claims parseToken(String token) {
+    // ✅ ADD THIS
+    public boolean isTokenValid(String token) {
+        try {
+            parseClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // ✅ ADD THIS
+    public Claims getClaims(String token) {
+        return parseClaims(token);
+    }
+
+    private Claims parseClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()

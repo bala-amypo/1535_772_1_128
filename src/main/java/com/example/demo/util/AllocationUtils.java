@@ -1,38 +1,41 @@
 package com.example.demo.util;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import com.example.demo.entity.HoldingRecord;
+import com.example.demo.entity.enums.AssetClassType;
+
+import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
-public final class AllocationUtils {
+public class AllocationUtils {
 
     private AllocationUtils() {
         // utility class
     }
 
-    /** percentage = (part / total) * 100 */
-    public static double calculatePercentage(double part, double total) {
-        if (total == 0) return 0.0;
-        return round((part / total) * 100);
-    }
+    /**
+     * Calculates allocation percentage per asset class.
+     */
+    public static Map<AssetClassType, Double> calculateAllocationPercentage(
+            List<HoldingRecord> holdings,
+            double totalValue) {
 
-    /** total portfolio value from asset-value map */
-    public static double totalValue(Map<String, Double> assetValues) {
-        return assetValues.values()
-                .stream()
-                .mapToDouble(Double::doubleValue)
-                .sum();
-    }
+        Map<AssetClassType, Double> allocation = new EnumMap<>(AssetClassType.class);
 
-    /** check deviation beyond threshold */
-    public static boolean isDeviationExceeded(double current, double target, double threshold) {
-        return Math.abs(current - target) > threshold;
-    }
+        for (HoldingRecord holding : holdings) {
+            allocation.putIfAbsent(holding.getAssetClass(), 0.0);
+            allocation.put(
+                    holding.getAssetClass(),
+                    allocation.get(holding.getAssetClass()) + holding.getCurrentValue()
+            );
+        }
 
-    /** round to 2 decimals */
-    public static double round(double value) {
-        return BigDecimal.valueOf(value)
-                .setScale(2, RoundingMode.HALF_UP)
-                .doubleValue();
+        // convert value → percentage
+        for (AssetClassType type : allocation.keySet()) {
+            double percent = (allocation.get(type) / totalValue) * 100;
+            allocation.put(type, percent);
+        }
+
+        return allocation;
     }
 }
