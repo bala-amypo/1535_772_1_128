@@ -1,12 +1,36 @@
-package com.example.demo.repository;
+package com.example.demo.entity;
 
-import java.util.Optional;
+import jakarta.persistence.*;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.demo.entity.InvestorProfile;
+@Entity
+public class InvestorProfile {
 
-public interface InvestorProfileRepository
-        extends JpaRepository<InvestorProfile, Long> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    Optional<InvestorProfile> findByInvestorId(String investorId);
+    @Column(unique = true)
+    private String investorId;
+
+    private String name;
+
+    private Boolean active;
+
+    public InvestorProfile() {}
+
+    public InvestorProfile(String investorId, String name, Boolean active) {
+        this.investorId = investorId;
+        this.name = name;
+        this.active = active;
+    }
+
+    public Long getId() { return id; }
+    public String getInvestorId() { return investorId; }
+    public String getName() { return name; }
+    public Boolean getActive() { return active; }
+
+    public void setId(Long id) { this.id = id; }
+    public void setInvestorId(String investorId) { this.investorId = investorId; }
+    public void setName(String name) { this.name = name; }
+    public void setActive(Boolean active) { this.active = active; }
 }
