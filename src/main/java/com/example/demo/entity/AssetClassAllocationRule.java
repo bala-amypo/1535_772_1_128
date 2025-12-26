@@ -1,39 +1,63 @@
 package com.example.demo.entity;
 
-import com.example.demo.entity.enums.AssetClassType;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "asset_class_allocation_rule")
 public class AssetClassAllocationRule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String investorId;
-
-    @Enumerated(EnumType.STRING)
-    private AssetClassType assetClass;
-
-    private Double targetPercentage;
-
-    public AssetClassAllocationRule() {}
-
-    @Column(name = "investor_id")
+    // ✅ ONLY ONCE, ONLY Long
+    @Column(name = "investor_id", nullable = false)
     private Long investorId;
 
+    @Column(nullable = false)
+    private String assetClass;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @Column(nullable = false)
+    private Double minPercentage;
 
-    public String getInvestorId() { return investorId; }
-    public void setInvestorId(String investorId) { this.investorId = investorId; }
+    @Column(nullable = false)
+    private Double maxPercentage;
 
-    public AssetClassType getAssetClass() { return assetClass; }
-    public void setAssetClass(AssetClassType assetClass) { this.assetClass = assetClass; }
+    /* ===== getters & setters ===== */
 
-    public Double getTargetPercentage() { return targetPercentage; }
-    public void setTargetPercentage(Double targetPercentage) {
-        this.targetPercentage = targetPercentage;
+    public Long getId() {
+        return id;
+    }
+
+    public Long getInvestorId() {
+        return investorId;
+    }
+
+    public void setInvestorId(Long investorId) {
+        this.investorId = investorId;
+    }
+
+    public String getAssetClass() {
+        return assetClass;
+    }
+
+    public void setAssetClass(String assetClass) {
+        this.assetClass = assetClass;
+    }
+
+    public Double getMinPercentage() {
+        return minPercentage;
+    }
+
+    public void setMinPercentage(Double minPercentage) {
+        this.minPercentage = minPercentage;
+    }
+
+    public Double getMaxPercentage() {
+        return maxPercentage;
+    }
+
+    public void setMaxPercentage(Double maxPercentage) {
+        this.maxPercentage = maxPercentage;
     }
 }
