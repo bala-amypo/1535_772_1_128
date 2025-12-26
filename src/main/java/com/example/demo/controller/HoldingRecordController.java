@@ -1,45 +1,40 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.AssetClassAllocationRule;
-import com.example.demo.service.AllocationRuleService;
+import com.example.demo.entity.HoldingRecord;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.service.HoldingRecordService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/allocation-rules")
-public class AssetClassAllocationRuleController {
+@RequestMapping("/api/holdings")
+public class HoldingRecordController {
 
-    private final AllocationRuleService service;
+    private final HoldingRecordService service;
 
-    public AssetClassAllocationRuleController(AllocationRuleService service) {
+    public HoldingRecordController(HoldingRecordService service) {
         this.service = service;
     }
 
     @PostMapping
-    public AssetClassAllocationRule create(@RequestBody AssetClassAllocationRule rule) {
-        return service.createRule(rule);
-    }
-
-    @PutMapping("/{id}")
-    public AssetClassAllocationRule update(
-            @PathVariable Long id,
-            @RequestBody AssetClassAllocationRule rule) {
-        return service.updateRule(id, rule);
+    public HoldingRecord recordHolding(@RequestBody HoldingRecord holding) {
+        return service.recordHolding(holding);
     }
 
     @GetMapping("/investor/{investorId}")
-    public List<AssetClassAllocationRule> getByInvestor(@PathVariable Long investorId) {
-        return service.getRulesByInvestor(investorId);
+    public List<HoldingRecord> getByInvestor(@PathVariable Long investorId) {
+        return service.getHoldingsByInvestor(investorId);
     }
 
     @GetMapping("/{id}")
-    public AssetClassAllocationRule getById(@PathVariable Long id) {
-        return service.getRuleById(id);
+    public HoldingRecord getById(@PathVariable Long id) {
+        return service.getHoldingById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Holding not found"));
     }
 
     @GetMapping
-    public List<AssetClassAllocationRule> getAll() {
-        return service.getAllRules();
+    public List<HoldingRecord> getAll() {
+        return service.getAllHoldings();
     }
 }
