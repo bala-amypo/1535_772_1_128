@@ -23,6 +23,19 @@ public class UserAccountServiceImpl implements UserAccountService {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }
+    @Override
+public AuthResponse login(AuthRequest request) {
+    UserAccount user = repo.findByEmail(request.getEmail())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    return new AuthResponse(
+            "dummy-token",
+            user.getId(),
+            user.getEmail(),
+            user.getRole().name()
+    );
+}
+
 
     @Override
     public void register(RegisterRequest request) {
@@ -35,6 +48,8 @@ public class UserAccountServiceImpl implements UserAccountService {
         user.setActive(true);
 
         repository.save(user);
+
+        
     }
 
 }
