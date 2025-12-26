@@ -1,36 +1,50 @@
 package com.example.demo.entity;
 
+import com.example.demo.entity.enums.*;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "rebalancing_alert_record")
 public class RebalancingAlertRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Column(nullable = false)
+    private String id;
+
     private String investorId;
 
+    @Enumerated(EnumType.STRING)
+    private AssetClassType assetClass;
+
+    private Double currentPercentage;
+    private Double targetPercentage;
+
+    @Enumerated(EnumType.STRING)
+    private AlertSeverity severity;
+
     private String message;
-    private String severity;
+    private LocalDateTime createdAt;
+    private Boolean resolved;
 
     public RebalancingAlertRecord() {}
 
-    public RebalancingAlertRecord(String investorId, String message, String severity) {
+    public RebalancingAlertRecord(String investorId, AssetClassType assetClass,
+                                  Double current, Double target,
+                                  AlertSeverity severity,
+                                  String message, LocalDateTime time,
+                                  Boolean resolved) {
+        this.id = investorId + "-" + assetClass + "-" + time;
         this.investorId = investorId;
-        this.message = message;
+        this.assetClass = assetClass;
+        this.currentPercentage = current;
+        this.targetPercentage = target;
         this.severity = severity;
+        this.message = message;
+        this.createdAt = time;
+        this.resolved = resolved;
     }
 
-    public Long getId() { return id; }
-    public String getInvestorId() { return investorId; }
-    public String getMessage() { return message; }
-    public String getSeverity() { return severity; }
-
-    public void setId(Long id) { this.id = id; }
-    public void setInvestorId(String investorId) { this.investorId = investorId; }
-    public void setMessage(String message) { this.message = message; }
-    public void setSeverity(String severity) { this.severity = severity; }
+    public Boolean getResolved() { return resolved; }
+    public void setResolved(Boolean r) { this.resolved = r; }
+    public Double getCurrentPercentage() { return currentPercentage; }
+    public AlertSeverity getSeverity() { return severity; }
 }

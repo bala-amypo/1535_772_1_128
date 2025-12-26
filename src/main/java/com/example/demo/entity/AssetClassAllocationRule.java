@@ -1,41 +1,38 @@
 package com.example.demo.entity;
 
+import com.example.demo.entity.enums.AssetClassType;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "asset_class_allocation_rule")
 public class AssetClassAllocationRule {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "investor_id", nullable = false)
     private String investorId;
 
-    private String assetClass;
-    private Double minPercent;
-    private Double maxPercent;
+    @Enumerated(EnumType.STRING)
+    private AssetClassType assetClass;
+
+    private Double targetPercentage;
+    private Boolean active;
 
     public AssetClassAllocationRule() {}
 
-    public AssetClassAllocationRule(String investorId, String assetClass,
-                                    Double minPercent, Double maxPercent) {
+    public AssetClassAllocationRule(String investorId, AssetClassType assetClass,
+                                    Double targetPercentage, Boolean active) {
+        this.id = investorId + "-" + assetClass;
         this.investorId = investorId;
         this.assetClass = assetClass;
-        this.minPercent = minPercent;
-        this.maxPercent = maxPercent;
+        this.targetPercentage = targetPercentage;
+        this.active = active;
     }
 
-    public Long getId() { return id; }
+    public String getId() { return id; }
     public String getInvestorId() { return investorId; }
-    public String getAssetClass() { return assetClass; }
-    public Double getMinPercent() { return minPercent; }
-    public Double getMaxPercent() { return maxPercent; }
+    public AssetClassType getAssetClass() { return assetClass; }
+    public Double getTargetPercentage() { return targetPercentage; }
+    public Boolean getActive() { return active; }
 
-    public void setId(Long id) { this.id = id; }
-    public void setInvestorId(String investorId) { this.investorId = investorId; }
-    public void setAssetClass(String assetClass) { this.assetClass = assetClass; }
-    public void setMinPercent(Double minPercent) { this.minPercent = minPercent; }
-    public void setMaxPercent(Double maxPercent) { this.maxPercent = maxPercent; }
+    public void setTargetPercentage(Double v) { this.targetPercentage = v; }
 }

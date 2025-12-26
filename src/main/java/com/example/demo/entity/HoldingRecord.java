@@ -1,40 +1,35 @@
 package com.example.demo.entity;
 
+import com.example.demo.entity.enums.AssetClassType;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "holding_record")
 public class HoldingRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "investor_id", nullable = false)
     private String investorId;
 
-    private String assetName;
-    private Double quantity;
-    private Double value;
+    @Enumerated(EnumType.STRING)
+    private AssetClassType assetClass;
+
+    private Double currentValue;
+    private LocalDateTime recordedAt;
 
     public HoldingRecord() {}
 
-    public HoldingRecord(String investorId, String assetName, Double quantity, Double value) {
+    public HoldingRecord(String investorId, AssetClassType assetClass,
+                         Double currentValue, LocalDateTime recordedAt) {
+        this.id = investorId + "-" + assetClass + "-" + recordedAt;
         this.investorId = investorId;
-        this.assetName = assetName;
-        this.quantity = quantity;
-        this.value = value;
+        this.assetClass = assetClass;
+        this.currentValue = currentValue;
+        this.recordedAt = recordedAt;
     }
 
-    public Long getId() { return id; }
+    public String getId() { return id; }
     public String getInvestorId() { return investorId; }
-    public String getAssetName() { return assetName; }
-    public Double getQuantity() { return quantity; }
-    public Double getValue() { return value; }
-
-    public void setId(Long id) { this.id = id; }
-    public void setInvestorId(String investorId) { this.investorId = investorId; }
-    public void setAssetName(String assetName) { this.assetName = assetName; }
-    public void setQuantity(Double quantity) { this.quantity = quantity; }
-    public void setValue(Double value) { this.value = value; }
+    public Double getCurrentValue() { return currentValue; }
 }
