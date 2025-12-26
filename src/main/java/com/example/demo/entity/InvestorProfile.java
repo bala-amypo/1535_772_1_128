@@ -1,36 +1,29 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 @Entity
+@Table(name = "investor_profiles")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class InvestorProfile {
 
     @Id
-    private String id;   // STRING ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String investorId;
-
+    @NotBlank(message = "Full name is required")
     private String fullName;
+
+    @Email(message = "Invalid email")
+    @NotBlank(message = "Email is required")
+    @Column(unique = true)
     private String email;
-    private Boolean active;
 
-    public InvestorProfile() {}
-
-    public InvestorProfile(String investorId, String fullName, String email, Boolean active) {
-        this.id = investorId;
-        this.investorId = investorId;
-        this.fullName = fullName;
-        this.email = email;
-        this.active = active;
-    }
-
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
-    public String getInvestorId() { return investorId; }
-    public String getFullName() { return fullName; }
-    public String getEmail() { return email; }
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    @NotNull
+    private Boolean active = true;
 }
