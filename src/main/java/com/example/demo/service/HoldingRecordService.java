@@ -1,15 +1,15 @@
 package com.example.demo.service;
 
-import java.util.List;
 import com.example.demo.entity.HoldingRecord;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface HoldingRecordService {
 
-    HoldingRecord save(HoldingRecord record);
+    HoldingRecord recordHolding(HoldingRecord record);
 
-    List<HoldingRecord> getByInvestorId(String investorId);
+    List<HoldingRecord> getHoldingsByInvestor(String investorId);
 
-    List<HoldingRecord> getAll();
-
-    void delete(String investorId);
+    Optional<HoldingRecord> getHoldingById(String id);
 }

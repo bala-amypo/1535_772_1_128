@@ -1,49 +1,48 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.InvestorProfile;
-import com.example.demo.repository.InvestorProfileRepository;
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.InvestorProfileRepository;
+import com.example.demo.service.InvestorProfileService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InvestorProfileServiceImpl implements InvestorProfileService {
 
-    private final InvestorProfileRepository repo;
+    private final InvestorProfileRepository repository;
 
-    public InvestorProfileServiceImpl(InvestorProfileRepository repo) {
-        this.repo = repo;
+    public InvestorProfileServiceImpl(InvestorProfileRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public InvestorProfile save(InvestorProfile investor) {
-        return repo.save(investor);
+    public InvestorProfile createInvestor(InvestorProfile investor) {
+        return repository.save(investor);
     }
 
     @Override
-    public InvestorProfile getByInvestorId(String investorId) {
-        return repo.findByInvestorId(investorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Investor not found"));
+    public InvestorProfile getInvestorById(String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Investor not found: " + id));
     }
 
     @Override
-    public List<InvestorProfile> getAll() {
-        return repo.findAll();
+    public List<InvestorProfile> getAllInvestors() {
+        return repository.findAll();
     }
 
     @Override
-    public InvestorProfile update(Long id, InvestorProfile investor) {
-        InvestorProfile existing = repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Investor not found"));
-        existing.setName(investor.getName());
-        existing.setEmail(investor.getEmail());
-        existing.setActive(investor.getActive());
-        return repo.save(existing);
+    public InvestorProfile updateInvestorStatus(String id, boolean active) {
+        InvestorProfile investor = getInvestorById(id);
+        investor.setActive(active);
+        return repository.save(investor);
     }
 
     @Override
-    public void delete(String investorId) {
-        repo.deleteById(id);
+    public Optional<InvestorProfile> findByInvestorId(String investorId) {
+        return repository.findByInvestorId(investorId);
     }
 }

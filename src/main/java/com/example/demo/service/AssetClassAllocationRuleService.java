@@ -1,15 +1,14 @@
 package com.example.demo.service;
 
-import java.util.List;
 import com.example.demo.entity.AssetClassAllocationRule;
 
-public interface AssetClassAllocationRuleService {
+import java.util.List;
 
-    AssetClassAllocationRule save(AssetClassAllocationRule rule);
+public interface AllocationRuleService {
 
-    List<AssetClassAllocationRule> getAll();
+    AssetClassAllocationRule createRule(AssetClassAllocationRule rule);
 
-    AssetClassAllocationRule getById(String investorId);
+    AssetClassAllocationRule updateRule(String id, AssetClassAllocationRule rule);
 
-    void delete(String investorId);
+    List<AssetClassAllocationRule> getRulesByInvestor(String investorId);
 }
