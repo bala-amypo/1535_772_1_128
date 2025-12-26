@@ -10,29 +10,35 @@ import java.util.List;
 @RequestMapping("/api/snapshots")
 public class AllocationSnapshotController {
 
-    private final AllocationSnapshotService service;
+    private final AllocationSnapshotService allocationSnapshotService;
 
-    public AllocationSnapshotController(AllocationSnapshotService service) {
-        this.service = service;
+    // ✅ Constructor injection (required)
+    public AllocationSnapshotController(AllocationSnapshotService allocationSnapshotService) {
+        this.allocationSnapshotService = allocationSnapshotService;
     }
 
+    // POST /api/snapshots/compute/{investorId}
     @PostMapping("/compute/{investorId}")
-    public AllocationSnapshotRecord compute(@PathVariable Long investorId) {
-        return service.computeSnapshot(investorId);
+    public AllocationSnapshotRecord computeSnapshot(@PathVariable Long investorId) {
+        return allocationSnapshotService.computeSnapshot(investorId);
     }
 
+    // GET /api/snapshots/investor/{investorId}
     @GetMapping("/investor/{investorId}")
-    public List<AllocationSnapshotRecord> byInvestor(@PathVariable Long investorId) {
-        return service.getSnapshotsByInvestor(investorId);
+    public List<AllocationSnapshotRecord> getSnapshotsByInvestor(
+            @PathVariable Long investorId) {
+        return allocationSnapshotService.getSnapshotsByInvestor(investorId);
     }
 
+    // GET /api/snapshots/{id}
     @GetMapping("/{id}")
-    public AllocationSnapshotRecord get(@PathVariable Long id) {
-        return service.getSnapshotById(id);
+    public AllocationSnapshotRecord getSnapshotById(@PathVariable Long id) {
+        return allocationSnapshotService.getSnapshotById(id);
     }
 
+    // GET /api/snapshots
     @GetMapping
-    public List<AllocationSnapshotRecord> getAll() {
-        return service.getAllSnapshots();
+    public List<AllocationSnapshotRecord> getAllSnapshots() {
+        return allocationSnapshotService.getAllSnapshots();
     }
 }

@@ -1,99 +1,44 @@
-package com.example.demo.service.impl;
+package com.example.demo.controller;
 
-import com.example.demo.entity.*;
-import com.example.demo.entity.enums.AlertSeverity;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.*;
+import com.example.demo.entity.AllocationSnapshotRecord;
 import com.example.demo.service.AllocationSnapshotService;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
-public class AllocationSnapshotServiceImpl implements AllocationSnapshotService {
+@RestController
+@RequestMapping("/api/snapshots")
+public class AllocationSnapshotController {
 
-    private final AllocationSnapshotRecordRepository snapshotRepo;
-    private final HoldingRecordRepository holdingRepo;
-    private final AssetClassAllocationRuleRepository ruleRepo;
-    private final RebalancingAlertRecordRepository alertRepo;
+    private final AllocationSnapshotService allocationSnapshotService;
 
-    public AllocationSnapshotServiceImpl(
-            AllocationSnapshotRecordRepository snapshotRepo,
-            HoldingRecordRepository holdingRepo,
-            AssetClassAllocationRuleRepository ruleRepo,
-            RebalancingAlertRecordRepository alertRepo
-    ) {
-        this.snapshotRepo = snapshotRepo;
-        this.holdingRepo = holdingRepo;
-        this.ruleRepo = ruleRepo;
-        this.alertRepo = alertRepo;
+    // ✅ Constructor injection (required)
+    public AllocationSnapshotController(AllocationSnapshotService allocationSnapshotService) {
+        this.allocationSnapshotService = allocationSnapshotService;
     }
 
-    @Override
-    public AllocationSnapshotRecord computeSnapshot(Long investorId) {
-
-        List<HoldingRecord> holdings = holdingRepo.findByInvestorId(investorId);
-        if (holdings.isEmpty()) {
-            throw new IllegalArgumentException("No holdings");
-        }
-
-        double total = holdings.stream()
-                .mapToDouble(HoldingRecord::getCurrentValue)
-                .sum();
-
-        Map<String, Double> allocation = holdings.stream()
-                .collect(Collectors.groupingBy(
-                        h -> h.getAssetClass().name(),
-                        Collectors.summingDouble(HoldingRecord::getCurrentValue)
-                ));
-
-        AllocationSnapshotRecord snapshot = new AllocationSnapshotRecord(
-                investorId, LocalDateTime.now(), total, allocation.toString()
-        );
-
-        snapshotRepo.save(snapshot);
-
-        List<AssetClassAllocationRule> rules =
-                ruleRepo.findByInvestorIdAndActiveTrue(investorId);
-
-        for (AssetClassAllocationRule rule : rules) {
-            double current = allocation.getOrDefault(rule.getAssetClass().name(), 0.0);
-            double currentPct = (current / total) * 100;
-
-            if (currentPct > rule.getTargetPercentage()) {
-                RebalancingAlertRecord alert = new RebalancingAlertRecord(
-                        investorId,
-                        rule.getAssetClass(),
-                        currentPct,
-                        rule.getTargetPercentage(),
-                        AlertSeverity.MEDIUM,
-                        "Rebalancing required",
-                        LocalDateTime.now(),
-                        false
-                );
-                alertRepo.save(alert);
-            }
-        }
-
-        return snapshot;
+    // POST /api/snapshots/compute/{investorId}
+    @PostMapping("/compute/{investorId}")
+    public AllocationSnapshotRecord computeSnapshot(@PathVariable Long investorId) {
+        return allocationSnapshotService.computeSnapshot(investorId);
     }
 
-    @Override
-    public AllocationSnapshotRecord getSnapshotById(Long id) {
-        return snapshotRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Snapshot not found: " + id));
+    // GET /api/snapshots/investor/{investorId}
+    @GetMapping("/investor/{investorId}")
+    public List<AllocationSnapshotRecord> getSnapshotsByInvestor(
+            @PathVariable Long investorId) {
+        return allocationSnapshotService.getSnapshotsByInvestor(investorId);
     }
 
-    @Override
-    public List<AllocationSnapshotRecord> getSnapshotsByInvestor(Long investorId) {
-        return snapshotRepo.findAll()
-                .stream()
-                .filter(s -> s.getInvestorId().equals(investorId))
-                .toList();
+    // GET /api/snapshots/{id}
+    @GetMapping("/{id}")
+    public AllocationSnapshotRecord getSnapshotById(@PathVariable Long id) {
+        return allocationSnapshotService.getSnapshotById(id);
     }
 
-    @Override
+    // GET /api/snapshots
+    @GetMapping
     public List<AllocationSnapshotRecord> getAllSnapshots() {
-        return snapshotRepo.findAll();
+        return allocationSnapshotService.getAllSnapshots();
     }
 }
