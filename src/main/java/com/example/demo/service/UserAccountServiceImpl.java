@@ -28,7 +28,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
+        user.setRole(RoleType.valueOf(request.getRole()));
         user.setActive(true);
 
         repository.save(user);

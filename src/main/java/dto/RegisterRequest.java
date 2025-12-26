@@ -1,7 +1,5 @@
 package com.example.demo.dto;
 
-import com.example.demo.entity.enums.RoleType;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -10,7 +8,6 @@ public class RegisterRequest {
     @NotBlank
     private String username;
 
-    @Email
     @NotBlank
     private String email;
 
@@ -18,7 +15,8 @@ public class RegisterRequest {
     private String password;
 
     @NotNull
-    private RoleType role;
+    private String role; 
+    // IMPORTANT: keep this as String (not enum)
 
     public String getUsername() {
         return username;
@@ -44,11 +42,11 @@ public class RegisterRequest {
         this.password = password;
     }
 
-    public RoleType getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(RoleType role) {
+    public void setRole(String role) {
         this.role = role;
     }
 }
