@@ -1,23 +1,38 @@
 package com.example.demo.entity;
 
-import com.example.demo.entity.enums.AssetClassType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "holding_records")
 public class HoldingRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String investorId;
 
-    @Enumerated(EnumType.STRING)
-    private AssetClassType assetClass;
+    @NotNull
+    private String assetName;
 
-    private Double currentValue;
+    @Min(0)
+    private Double quantity;
+
+    @Min(0)
+    private Double value;
 
     public HoldingRecord() {}
+
+    public HoldingRecord(Long id, String investorId, String assetName, Double quantity, Double value) {
+        this.id = id;
+        this.investorId = investorId;
+        this.assetName = assetName;
+        this.quantity = quantity;
+        this.value = value;
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -25,11 +40,12 @@ public class HoldingRecord {
     public String getInvestorId() { return investorId; }
     public void setInvestorId(String investorId) { this.investorId = investorId; }
 
-    public AssetClassType getAssetClass() { return assetClass; }
-    public void setAssetClass(AssetClassType assetClass) { this.assetClass = assetClass; }
+    public String getAssetName() { return assetName; }
+    public void setAssetName(String assetName) { this.assetName = assetName; }
 
-    public Double getCurrentValue() { return currentValue; }
-    public void setCurrentValue(Double currentValue) {
-        this.currentValue = currentValue;
-    }
+    public Double getQuantity() { return quantity; }
+    public void setQuantity(Double quantity) { this.quantity = quantity; }
+
+    public Double getValue() { return value; }
+    public void setValue(Double value) { this.value = value; }
 }
