@@ -1,17 +1,20 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import org.springframework.stereotype.Service;
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.service.AuthService;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
     @Override
-    public String register(String username, String password) {
-        return "REGISTER_SUCCESS";
+    public AuthResponse register(AuthRequest request) {
+        return new AuthResponse("User registered: " + request.getUsername());
     }
 
     @Override
-    public String login(String username, String password) {
-        return "LOGIN_SUCCESS";
+    public AuthResponse login(AuthRequest request) {
+        return new AuthResponse("Login success: " + request.getUsername());
     }
 }
