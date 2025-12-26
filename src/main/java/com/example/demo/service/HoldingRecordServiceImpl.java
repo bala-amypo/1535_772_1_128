@@ -23,5 +23,9 @@ public class HoldingRecordServiceImpl implements HoldingRecordService {
     @Override
     public List<HoldingRecord> getByInvestorId(String investorId) {
         return repo.findByInvestorId(investorId);
+
+    @Override
+    public void deleteByInvestorId(String investorId) {
+        repo.deleteByInvestorId(investorId);
     }
 }
