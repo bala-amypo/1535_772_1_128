@@ -37,8 +37,4 @@ public class UserAccountServiceImpl implements UserAccountService {
         repository.save(user);
     }
 
-    @Override
-    public AuthResponse login(AuthRequest request) {
-        return new AuthResponse("TEST_TOKEN");
-    }
 }
