@@ -12,10 +12,10 @@ import java.util.List;
 @RequestMapping("/api/allocation-rules")
 public class AssetAllocationRuleController {
 
-    private final AssetAllocationRuleService service;
+    private final AllocationRuleService service;
 
-    public AssetAllocationRuleController(
-            AssetAllocationRuleService service) {
+    public AllocationRuleController(
+            AllocationRuleService service) {
         this.service = service;
     }
 
@@ -26,12 +26,12 @@ public class AssetAllocationRuleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AssetAllocationRule>> getAll() {
+    public ResponseEntity<List<AllocationRule>> getAll() {
         return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AssetAllocationRule> getById(
+    public ResponseEntity<AllocationRule> getById(
             @PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
     }
