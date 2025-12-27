@@ -11,13 +11,15 @@ import java.util.List;
 public interface HoldingRecordRepository
         extends JpaRepository<HoldingRecord, Long> {
 
-    // used by AllocationSnapshotServiceImpl
-    List<HoldingRecord> findByInvestorId(Long investorId);
+    // REQUIRED by tests
+    List<HoldingRecord> findByValueGreaterThan(double value);
 
-    List<HoldingRecord> findByInvestorIdAndAssetClass(
-            Long investorId,
+    // REQUIRED by tests
+    List<HoldingRecord> findByInvestorAndAssetClass(
+            long investorId,
             AssetClassType assetClass
     );
 
-    List<HoldingRecord> findByMarketValueGreaterThan(Double marketValue);
+    // used by services
+    List<HoldingRecord> findByInvestorId(Long investorId);
 }
