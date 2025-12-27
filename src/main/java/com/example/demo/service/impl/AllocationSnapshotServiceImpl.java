@@ -6,11 +6,13 @@ import com.example.demo.entity.enums.AssetClassType;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.*;
 import com.example.demo.service.AllocationSnapshotService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class AllocationSnapshotServiceImpl implements AllocationSnapshotService {
 
     private final AllocationSnapshotRecordRepository snapshotRepo;
@@ -18,13 +20,13 @@ public class AllocationSnapshotServiceImpl implements AllocationSnapshotService 
     private final AssetClassAllocationRuleRepository ruleRepo;
     private final RebalancingAlertRecordRepository alertRepo;
 
-    // ⚠️ constructor order enforced by test
+    // ⚠️ constructor order REQUIRED by test
     public AllocationSnapshotServiceImpl(
             AllocationSnapshotRecordRepository snapshotRepo,
             HoldingRecordRepository holdingRepo,
             AssetClassAllocationRuleRepository ruleRepo,
-            RebalancingAlertRecordRepository alertRepo
-    ) {
+            RebalancingAlertRecordRepository alertRepo) {
+
         this.snapshotRepo = snapshotRepo;
         this.holdingRepo = holdingRepo;
         this.ruleRepo = ruleRepo;
@@ -47,14 +49,14 @@ public class AllocationSnapshotServiceImpl implements AllocationSnapshotService 
             throw new IllegalArgumentException("Total portfolio value must be > 0");
         }
 
-        Map<AssetClassType, Double> allocationMap =
+        Map<AssetClassType, Double> valueMap =
                 holdings.stream().collect(Collectors.groupingBy(
                         HoldingRecord::getAssetClass,
                         Collectors.summingDouble(HoldingRecord::getCurrentValue)
                 ));
 
         Map<AssetClassType, Double> percentageMap = new HashMap<>();
-        for (Map.Entry<AssetClassType, Double> e : allocationMap.entrySet()) {
+        for (var e : valueMap.entrySet()) {
             percentageMap.put(e.getKey(), (e.getValue() / total) * 100);
         }
 
@@ -65,16 +67,15 @@ public class AllocationSnapshotServiceImpl implements AllocationSnapshotService 
                 percentageMap.toString()
         );
 
-        snapshot = snapshotRepo.save(snapshot);
+        snapshotRepo.save(snapshot);
 
         List<AssetClassAllocationRule> rules =
                 ruleRepo.findByInvestorIdAndActiveTrue(investorId);
 
         for (AssetClassAllocationRule rule : rules) {
             double currentPct = percentageMap.getOrDefault(rule.getAssetClass(), 0.0);
-
             if (currentPct > rule.getTargetPercentage()) {
-                RebalancingAlertRecord alert = new RebalancingAlertRecord(
+                alertRepo.save(new RebalancingAlertRecord(
                         investorId,
                         rule.getAssetClass(),
                         currentPct,
@@ -83,8 +84,7 @@ public class AllocationSnapshotServiceImpl implements AllocationSnapshotService 
                         "Rebalancing required",
                         LocalDateTime.now(),
                         false
-                );
-                alertRepo.save(alert);
+                ));
             }
         }
 
@@ -94,7 +94,8 @@ public class AllocationSnapshotServiceImpl implements AllocationSnapshotService 
     @Override
     public AllocationSnapshotRecord getSnapshotById(Long id) {
         return snapshotRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Snapshot not found: " + id));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Snapshot not found: " + id));
     }
 
     @Override

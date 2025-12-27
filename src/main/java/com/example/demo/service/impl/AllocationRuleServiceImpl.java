@@ -4,9 +4,11 @@ import com.example.demo.entity.AssetClassAllocationRule;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.AssetClassAllocationRuleRepository;
 import com.example.demo.service.AllocationRuleService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AllocationRuleServiceImpl implements AllocationRuleService {
 
     private final AssetClassAllocationRuleRepository repository;
@@ -24,7 +26,8 @@ public class AllocationRuleServiceImpl implements AllocationRuleService {
     @Override
     public AssetClassAllocationRule updateRule(Long id, AssetClassAllocationRule updatedRule) {
         AssetClassAllocationRule existing = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Rule not found: " + id));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Rule not found: " + id));
 
         validatePercentage(updatedRule.getTargetPercentage());
 
@@ -48,12 +51,13 @@ public class AllocationRuleServiceImpl implements AllocationRuleService {
     @Override
     public AssetClassAllocationRule getRuleById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Rule not found: " + id));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Rule not found: " + id));
     }
 
     private void validatePercentage(Double value) {
         if (value == null || value < 0 || value > 100) {
-            throw new IllegalArgumentException("targetPercentage must be between 0 and 100");
+            throw new IllegalArgumentException("between 0 and 100");
         }
     }
 }

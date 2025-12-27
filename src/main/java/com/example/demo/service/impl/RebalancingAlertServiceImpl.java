@@ -4,9 +4,11 @@ import com.example.demo.entity.RebalancingAlertRecord;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.RebalancingAlertRecordRepository;
 import com.example.demo.service.RebalancingAlertService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RebalancingAlertServiceImpl implements RebalancingAlertService {
 
     private final RebalancingAlertRecordRepository repository;
@@ -26,7 +28,8 @@ public class RebalancingAlertServiceImpl implements RebalancingAlertService {
     @Override
     public RebalancingAlertRecord resolveAlert(Long id) {
         RebalancingAlertRecord alert = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Alert not found: " + id));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Alert not found: " + id));
 
         alert.setResolved(true);
         return repository.save(alert);
@@ -40,7 +43,8 @@ public class RebalancingAlertServiceImpl implements RebalancingAlertService {
     @Override
     public RebalancingAlertRecord getAlertById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Alert not found: " + id));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Alert not found: " + id));
     }
 
     @Override
