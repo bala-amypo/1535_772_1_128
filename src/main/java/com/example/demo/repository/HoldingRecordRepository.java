@@ -11,8 +11,12 @@ public interface HoldingRecordRepository
 
     List<HoldingRecord> findByInvestorId(Long investorId);
 
-    // ✅ FIXED: must match entity field "currentValue"
+    // ✅ matches field: currentValue
     List<HoldingRecord> findByCurrentValueGreaterThan(Double value);
 
-    List<HoldingRecord> findByInvestorAndAssetClass(Long investorId, AssetClassType assetClass);
+    // ✅ matches field: investorId (NOT investor)
+    List<HoldingRecord> findByInvestorIdAndAssetClass(
+            Long investorId,
+            AssetClassType assetClass
+    );
 }
