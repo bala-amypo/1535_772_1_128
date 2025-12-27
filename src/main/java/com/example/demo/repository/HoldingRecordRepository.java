@@ -11,9 +11,8 @@ public interface HoldingRecordRepository
 
     List<HoldingRecord> findByInvestorId(Long investorId);
 
-    // Used in HQL tests
-    List<HoldingRecord> findByValueGreaterThan(Double value);
+    // ✅ FIXED: must match entity field "currentValue"
+    List<HoldingRecord> findByCurrentValueGreaterThan(Double value);
 
-    // Used in asset-class specific query test
     List<HoldingRecord> findByInvestorAndAssetClass(Long investorId, AssetClassType assetClass);
 }
